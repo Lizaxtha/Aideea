@@ -1,6 +1,13 @@
 import "./SignUp.css";
+import {signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../firebase";
+import {useState} from "react";
 
 function Login(){
+
+    const [email,setEmail] = useState("");
+    const [password,setPassword] = useState("");
+
     return(
         <>
         <video
@@ -36,6 +43,20 @@ function Login(){
         </div>
         </>
     )
+}
+
+const handleLogin=async(e) => {
+    e.preventDefault();
+
+    try{
+await signInWithEmailAndPassword(
+    auth,email,password
+);
+        alert("Logged In!");
+    }
+    catch (error){
+        alert(error.message);
+    }
 }
 
 export default Login;

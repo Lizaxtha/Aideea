@@ -1,7 +1,57 @@
 import {Link} from "react-router-dom";
 import "./SignUp.css";
 
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../firebase";
+
+import {useState} from "react";
+
+import{
+    doc,
+    setDoc
+} from "firebase/firestore";
+
+import {db} from "../firebase";
+
+
+
+
 function SignUp() {
+    
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const Submit =async(e) =>{
+        e.preventDefault();
+        
+        try {
+            
+            const userCredential =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            
+            alert("Account created!");
+            
+            console.log(userCredential.user);
+        }
+        
+        catch(error){
+            alert(error.message);
+        }
+     };   
+
+    //     await setDoc(
+    // doc(
+    //     db, "users", userCredential.user.uid),
+    // {name,email}
+    //     );
+    
+    
+
     return (
         <>
         
@@ -22,22 +72,22 @@ function SignUp() {
                 
             </div>
 
-            <form className="form">
+            <form className="form" onSubmit={Submit}>
                 <h2>Sign up</h2>
 <br/>
                 <div>
                     <label>Name</label>
-                    <input type="text" placeholder="Enter your name" />
+                    <input type="text" value={name} onChange={(e)=>setName(e.target.value)} placeholder="Enter your name" />
                 </div>
 
                 <div>
                     <label>Email</label>
-                    <input type="email" placeholder="Enter your email" />
+                    <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter your email" />
                 </div>
 
                 <div>
                     <label>Password</label>
-                   <input type="password" placeholder="Create password" />
+                   <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="Create password" />
                 </div>
 
                 <button className="btn"type="submit">Done</button>
@@ -56,5 +106,7 @@ function SignUp() {
 
     );
 }
+
+
 
 export default SignUp;
