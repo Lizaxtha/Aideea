@@ -1,12 +1,24 @@
 import "./SignUp.css";
 import {signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "../firebase";
+// import {auth} from "../firebase";
 import {useState} from "react";
+
+import { useNavigate } from "react-router-dom";
 
 function Login(){
 
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
+    // const [email,setEmail] = useState("");
+    // const [password,setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    const Submit = (e)=>{
+        e.preventDefault();
+        // await signInWithEmailAndPassword(
+        //     auth,email,password
+        // );
+            navigate("/home");
+    }
 
     return(
         <>
@@ -23,7 +35,7 @@ function Login(){
         <div className="container">
             <h1 className="heading">Welcome Back</h1>
             
-                <form className="form">
+                <form className="form" onSubmit={Submit}>
 
                 <h2>Login</h2>
 
