@@ -33,7 +33,7 @@ function Login(){
             </video>
 
         <div className="container">
-            <h1 className="heading">Welcome Back</h1>
+            <h1 className="h1 heading">Welcome Back</h1>
             
                 <form className="form" onSubmit={Submit}>
 

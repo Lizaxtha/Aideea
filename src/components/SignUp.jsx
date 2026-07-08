@@ -79,7 +79,7 @@ function SignUp() {
             <div className="heading">
                
                  <h1>Aideea</h1>
-                <h1>Ready to keep IDEAS safe!!</h1>
+                <h1 className="h1">Ready to keep IDEAS safe!!</h1>
                 
             </div>
 
