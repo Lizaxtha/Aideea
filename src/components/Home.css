@@ -1,4 +1,9 @@
 /* needs background video something like constellation. what about a UI that makes constellations each time user adds something. a new idea creats new constellation in Ui. store the ideas in firestore. */
+.H-bg-vid{
+    position:fixed;
+    
+}
+
 .H-input{
     color: black;
 }
@@ -14,6 +19,7 @@
 .H-container{
     display:flex;
     flex-direction: row;
+    justify-content: center;
     border:3px solid black;
     
 }
@@ -30,3 +36,35 @@
 border:3px solid black;
 
 }
+
+.H-cards{
+    border:3px solid black;
+     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin:10px;
+}
+.card{
+   
+    border : 2px solid pink;
+    width:250px;
+    min-height:150px;
+margin:15px;
+border-radius: 20px;
+
+}
+
+.card-heading {
+    text-align: center;
+    font-size: 25px;
+}
+
+.card:hover{
+    border-color: blue;
+transform:translateY(-7px);
+}
+
+.card ul{
+
+}
+

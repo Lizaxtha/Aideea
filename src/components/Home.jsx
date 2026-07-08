@@ -37,6 +37,16 @@ const SaveIdea =() => {
     return(
 <>
 
+<video
+autoPlay
+loop
+muted
+playsInline
+className="H-bg-vid"
+
+>
+    <source src=""/>
+</video>
 <div className="H-Title">
 <h1>Aideea</h1>
 <p>Dump your creative ideas</p>
@@ -80,7 +90,7 @@ const SaveIdea =() => {
        ([hobbyName, ideas]) => 
         (
             <div className="card" key={hobbyName}>
-                <h3>
+                <h3 className="card-heading">
                 {hobbyName}
                 </h3>
                 <ul>
