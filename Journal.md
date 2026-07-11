@@ -3,3 +3,7 @@
 6 drop down list added, tried to make cards and dynamic website
 7 hobbies section successfully added. set idea as default and cards generated
 8 fixed overlapping css + added css on cards
+9 added more css
+11 linked cards to a new page, re-setup firebase auth
+
+

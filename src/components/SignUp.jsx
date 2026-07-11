@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import "./SignUp.css";
 import { useNavigate } from "react-router-dom";
 
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../firebase";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 import {useState} from "react";
 
 // import{
@@ -18,32 +17,37 @@ import {useState} from "react";
 
 
 function SignUp() {
-    
-    // const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
 
-    // const Submit =async(e) =>{
-    //     e.preventDefault();
+    const navigate = useNavigate();
+    
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    /* const openHome =(e)=>{
+        e.preventDefault();
+         */ 
+
+    const Submit =async(e) =>{
+        e.preventDefault();
         
-    //     try {
-            
+        try {
     //         const userCredential =
-    //         await createUserWithEmailAndPassword(
-    //             auth,
-    //             email,
-    //             password
-    //         );
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             
-    //         alert("Account created!");
-            
+            alert("Account created!");
+            navigate("/home");
     //         console.log(userCredential.user);
-    //     }
+        }
         
-    //     catch(error){
-    //         alert(error.message);
-    //     }
-    //  };   
+        catch(error){
+            alert(error.message);
+        }
+     };   
 
     //     await setDoc(
     // doc(
@@ -51,17 +55,11 @@ function SignUp() {
     // {name,email}
     //     );
     
-    const navigate = useNavigate();
-
-    const openHome =(e)=>{
-        e.preventDefault();
-        navigate("/home");
+     
 
         // await createUserWithEmailAndPassword(
         //     auth,email,password
         // );
-
-    }
 
     return (
         <>
@@ -83,27 +81,30 @@ function SignUp() {
                 
             </div>
 
-            <form className="form" onSubmit={openHome}>
+            <form className="form" onSubmit={Submit}>
                 <h2>Sign up</h2>
 <br/>
                 <div>
                     <label>Name</label>
                     <input type="text" 
-                    // value={name} onChange={(e)=>setName(e.target.value)}
+                    value={name}
+                     onChange={(e)=>setName(e.target.value)}
                      placeholder="Enter your name" />
                 </div>
 
                 <div>
                     <label>Email</label>
                     <input type="email" 
-                    // value={email} onChange={(e)=>setEmail(e.target.value)} 
+                    value={email}
+                     onChange={(e)=>setEmail(e.target.value)} 
                     placeholder="Enter your email" />
                 </div>
 
                 <div>
                     <label>Password</label>
                    <input type="password" 
-                //    value={password} onChange={(e)=>setPassword(e.target.value)}
+                   value={password} 
+                onChange={(e)=>setPassword(e.target.value)}
                     placeholder="Create password" />
                 </div>
 
