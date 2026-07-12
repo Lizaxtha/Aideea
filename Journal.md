@@ -5,5 +5,7 @@
 8 fixed overlapping css + added css on cards
 9 added more css
 11 linked cards to a new page, re-setup firebase auth
-
-
+12 login auth setup + firestore setup + storing ideas in firestore, loading & connecting ideas in home page. and lots of testing
+solved a problem : ideas do not disappear even after page reloads
+![alt text](image.png)
+problem : everyone can see everyones ideas.

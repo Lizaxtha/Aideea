@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Home.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import {collection, addDoc, getDocs} from "firebase/firestore";
+import {db} from "../firebase";
+import {auth} from "../firebase";
 
 function Home() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // default hobby + user can add hobby
 
@@ -25,9 +28,25 @@ function Home() {
 
     const [Idea, setIdea] = useState("");
     const [saved, setSaved] = useState({});
-    const SaveIdea = () => {
+
+    const SaveIdea = async() => {
         if (!Idea.trim()) return;
         const hobbyName = selectedHobby || "Ideas";
+
+        try{
+            await addDoc(collection(db, "ideas"),
+                {
+                    userId:auth.currentUser.uid,
+                    hobby: hobbyName,
+                    text: Idea
+                }
+            );
+            alert("Idea Saved!");
+            setIdea("");
+        }
+        catch(error){
+            alert(error.message);
+        }
         setSaved({
             ...saved,
             [hobbyName]: [
@@ -35,8 +54,28 @@ function Home() {
                 Idea
             ]
         });
-        setIdea("");
+       
     }
+
+    const LoadIdeas =async()=>{
+        // const loadedHobbies =["Ideas"];
+        
+        const result = await getDocs(
+            collection(db, "ideas"));
+        const loadedIdeas ={};
+        result.forEach((doc)=>{
+            const data=doc.data();
+            if(!loadedIdeas[data.hobby]){
+                loadedIdeas[data.hobby]=[];
+            }
+            // setHobbies(loadedHobiies);
+            loadedIdeas[data.hobby].push(data.text);
+        })
+        setSaved(loadedIdeas);
+    }
+    useEffect(()=>{
+        LoadIdeas();
+    },[]);
 
     return (
         <>
@@ -95,10 +134,12 @@ function Home() {
             <div className="H-cards">
                 {Object.entries(saved).map(([hobbyName, ideas]) =>(
 
-                        <Link to={`/hobby/$hobbyName}`}
-                            target="_blank">
+                        <Link 
+                        key={hobbyName}
+                        to={`/hobby/${hobbyName}`}
+                        target="_blank">
                                 
-                            <div className="card" key={hobbyName}>
+                            <div className="card">
                                 <h3 className="card-heading">
                                     {hobbyName}
                                 </h3>
