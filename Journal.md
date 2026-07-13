@@ -9,3 +9,4 @@
 solved a problem : ideas do not disappear even after page reloads
 ![alt text](image.png)
 problem : everyone can see everyones ideas.
+13 test query, new page for cards created and linked firestore to extracted every ser's respective idea. 

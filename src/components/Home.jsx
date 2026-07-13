@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import "./Home.css";
 // import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import {collection, addDoc, getDocs} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../firebase";
 import {auth} from "../firebase";
+import {onAuthStateChanged} from "firebase/auth";
 
 function Home() {
 
@@ -59,9 +60,12 @@ function Home() {
 
     const LoadIdeas =async()=>{
         // const loadedHobbies =["Ideas"];
-        
-        const result = await getDocs(
-            collection(db, "ideas"));
+        const q=query(
+            collection(db, "ideas"),
+            where("userId", "==", auth.currentUser.uid)
+        )
+
+        const result = await getDocs(q);
         const loadedIdeas ={};
         result.forEach((doc)=>{
             const data=doc.data();
@@ -74,7 +78,15 @@ function Home() {
         setSaved(loadedIdeas);
     }
     useEffect(()=>{
-        LoadIdeas();
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            (user)=>{
+                if(user){
+                    LoadIdeas();
+                }
+            }
+        );
+       return()=> unsubscribe();
     },[]);
 
     return (
