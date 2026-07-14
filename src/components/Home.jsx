@@ -67,15 +67,22 @@ function Home() {
 
         const result = await getDocs(q);
         const loadedIdeas ={};
+
+        const loadedHobbies=["Ideas"];
         result.forEach((doc)=>{
             const data=doc.data();
             if(!loadedIdeas[data.hobby]){
                 loadedIdeas[data.hobby]=[];
             }
-            // setHobbies(loadedHobiies);
+            
             loadedIdeas[data.hobby].push(data.text);
-        })
+            if(!loadedHobbies.includes(data.hobby)){
+                loadedHobbies.push(data.hobby);
+            }
+        });
+
         setSaved(loadedIdeas);
+        setHobbies(loadedHobbies);
     }
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(

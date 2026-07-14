@@ -5,6 +5,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import IdeaCards from "./components/IdeaCards";
+import ListView from "./components/ListView";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/home" element={<Home/>}/>
       <Route path="/hobby/:hobbyName" element={<IdeaCards />} />
+      <Route path="/list/:hobbyName" element={<ListView />} />
     </Routes>
     </BrowserRouter>
 

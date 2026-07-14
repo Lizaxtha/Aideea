@@ -1,4 +1,4 @@
-import{useParams} from "react-router-dom";
+import{useParams, Link} from "react-router-dom";
 import{useState, useEffect} from "react";
 import "./IdeaCards.css";
 import React from "react";
@@ -48,7 +48,9 @@ return unsubscribe;
 <h1 className="i-h1">{hobbyName}</h1>
 
         <div className="i-container1">
-            <p>List view</p>
+            <Link to={`/list/${hobbyName}`}>
+        <p>List View </p>
+        </Link>
             <p>Constellation View</p>
         </div>
 
