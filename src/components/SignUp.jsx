@@ -108,7 +108,7 @@ function SignUp() {
                     placeholder="Create password" />
                 </div>
 
-                <button className="btn"type="submit">Done</button>
+                <button className="btn"type="submit">SignUp</button>
 
                 <br />
 

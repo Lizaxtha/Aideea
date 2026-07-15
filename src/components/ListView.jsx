@@ -55,6 +55,7 @@ const deleting = async(id)=>{
 }
 
 //for edit action
+const[editingId, setEditingId] =useState(null);
 const [editedText,setEditedText]=useState("");
 const editing=async(id)=>{
     try{
@@ -64,7 +65,7 @@ const editing=async(id)=>{
              text:editedText
          }
         );
-   
+   setEditingId(null);
     await loadIdeas(auth.currentUser.uid);
     alert("Idea Updated");
     }
@@ -80,9 +81,19 @@ const editing=async(id)=>{
         <ul>
             {ideas.map((idea)=>(
                 <li key={idea.id}>
-                    {idea.text}
-                    <button onClick={()=> deleting(idea.id)}>Delete</button>
-                    <button onClick={()=> editing(idea)}>Edit</button>
+                    {editingId === idea.id ?(
+                        <>
+                        <input value={editedText} onChange={(e)=>setEditedText(e.target.value)}/>
+                        <button onClick={()=>editing(idea.id)}>Save</button>
+                        </>
+
+                    ):(
+                        <>
+                        {idea.text}
+                        <button onClick={()=>{setEditingId(idea.id); setEditedText(idea.text);}}>Edit</button>
+                        <button onClick={()=> deleting(idea.id)}>Delete</button>
+                        </>
+                    )}
                 </li>
             ))}
         </ul>

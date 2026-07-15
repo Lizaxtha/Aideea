@@ -44,7 +44,14 @@ return unsubscribe;
 
     return(
         <>
-        
+        <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="I-bgvid">
+            <source src="/video5.mp4"/>
+        </video>
 <h1 className="i-h1">{hobbyName}</h1>
 
         <div className="i-container1">
@@ -54,11 +61,17 @@ return unsubscribe;
             <p>Constellation View</p>
         </div>
 
-        <div className="i-container2">
+        <div className="bubble-container">
             {IdeaCards.map((idea)=>(
                 <div className="idea-bubble"
                 key={idea.id}
-                onClick={()=>setSelectedIdea(idea)}>
+                style={{
+                    top:`${Math.random()*70}%`,
+                    left:`${Math.random()*80}%`
+                }  
+                }
+                // onClick={()=>setSelectedIdea(idea)}
+                >
                 {idea.text}
                 </div>
             ))}

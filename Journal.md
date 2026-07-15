@@ -10,4 +10,5 @@ solved a problem : ideas do not disappear even after page reloads
 ![alt text](image.png)
 problem : everyone can see everyones ideas.
 13 test query, new page for cards created and linked firestore to extracted every ser's respective idea. 
-14. linked list view page, there was a problem, the ideas were loading even after page refresh but hobbies were disappearing. fixed it with new if loop for hobbies, added delete and edit actions and tested
+14 linked list view page, there was a problem, the ideas were loading even after page refresh but hobbies were disappearing. fixed it with new if loop for hobbies, added delete and edit actions and tested.
+15 tested & fixed edit and delete action, added bubble css in Ideacards.jsx
