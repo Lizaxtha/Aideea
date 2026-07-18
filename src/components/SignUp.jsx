@@ -6,15 +6,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import {useState} from "react";
 
-// import{
-//     doc,
-//     setDoc
-// } from "firebase/firestore";
-
-// import {db} from "../firebase";
-
-
-
 
 function SignUp() {
 
@@ -48,18 +39,6 @@ function SignUp() {
             alert(error.message);
         }
      };   
-
-    //     await setDoc(
-    // doc(
-    //     db, "users", userCredential.user.uid),
-    // {name,email}
-    //     );
-    
-     
-
-        // await createUserWithEmailAndPassword(
-        //     auth,email,password
-        // );
 
     return (
         <>

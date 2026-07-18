@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
-// import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {collection, addDoc, getDocs, query, where} from "firebase/firestore";
 import {db} from "../firebase";
@@ -8,8 +7,6 @@ import {auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
 
 function Home() {
-
-    // const navigate = useNavigate();
 
     // default hobby + user can add hobby
 
@@ -42,7 +39,7 @@ function Home() {
                     text: Idea
                 }
             );
-            alert("Idea Saved!");
+            // alert("Idea Saved!");
             setIdea("");
         }
         catch(error){
@@ -108,7 +105,10 @@ function Home() {
             >
                 <source src="/video8.mp4" />
             </video>
-
+            
+<Link to="/profile">
+<button>Profile</button>
+</Link>
             <div className="H-Title">
                 <h1>Aideea</h1>
                 <p>Dump your creative ideas</p>
@@ -129,10 +129,6 @@ function Home() {
                     {/* to create hobby */}
 
                     <button className="btn2" onClick={addHobby}><img src="/add1.png" /></button>
-
-                    {/* {hobbies.map((hobby,index)=>(
-                        <p key={index}>{hobby}</p>))}  
-                    */}
 
 
                     {/* can choose hobbies */}

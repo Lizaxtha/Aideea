@@ -28,6 +28,7 @@ function IdeaCards(){
             });
         });
         setIdeas(temp);
+        
     };
     useEffect(()=>{
 const unsubscribe=onAuthStateChanged(
@@ -50,7 +51,7 @@ return unsubscribe;
         muted
         playsInline
         className="I-bgvid">
-            <source src="/video5.mp4"/>
+            <source src="/video10.mp4"/>
         </video>
 <h1 className="i-h1">{hobbyName}</h1>
 
@@ -63,19 +64,38 @@ return unsubscribe;
 
         <div className="bubble-container">
             {IdeaCards.map((idea)=>(
+
                 <div className="idea-bubble"
                 key={idea.id}
+                onClick={()=>setSelectedIdea(idea)}
                 style={{
                     top:`${Math.random()*70}%`,
                     left:`${Math.random()*80}%`
                 }  
                 }
-                // onClick={()=>setSelectedIdea(idea)}
                 >
                 {idea.text}
                 </div>
             ))}
         </div>
+{selectedIdea&&(
+<div className="sidebar">
+    <button className="close-btn" onClick={()=>setSelectedIdea(null)}>
+        close
+    </button>
+    <h2>Idea Details</h2>
+    <p>{selectedIdea.text}</p>
+
+    <div className="sidebar-actions">
+        <button className="i-edit-btn">
+            Edit
+        </button>
+        <button className="i-delete-btn">
+            Delete
+        </button>
+    </div>
+    </div>
+)}
 
         </>
  )

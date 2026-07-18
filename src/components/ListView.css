@@ -1,3 +1,53 @@
+.L-page{
+    min-height:100vh;
+    background-image: url("/ListViewbg.avif");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding:40px;
+
+}
 .L-heading{
     text-align: center;
+    color:rgb(195, 237, 248);
+    font-size: 50px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #4f51e6, 0 0 20px #9071e4;
 }
+
+
+.L-list{
+    list-style: none;
+    padding:0;
+    display: flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.L-card{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+    padding:20px;
+    border-radius:15px;
+    display:flex;
+    /* justify-content: space-between; */
+    align-items:center;
+    gap:15px;
+    font-size: 17px;
+}
+
+
+.edit-btn, .save-btn, .delete-btn{
+    border:none;
+    padding:8px 15px;
+    border-radius: 8px;
+    cursor:pointer;
+    /* align-self: flex-end; */
+}
+
+.edit-btn:hover, .save-btn:hover, .delete-btn:hover{
+    transform:scale(1.05);
+}
+
