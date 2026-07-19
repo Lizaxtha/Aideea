@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import IdeaCards from "./components/IdeaCards";
 import ListView from "./components/ListView";
 import Profile from "./components/Profile";
+import Constellation from "./components/Constellation";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/hobby/:hobbyName" element={<IdeaCards />} />
       <Route path="/list/:hobbyName" element={<ListView />} />
       <Route path="/profile" element={<Profile/>}/>
+      <Route path="/constellation" element={<Constellation/>}/>
     </Routes>
     </BrowserRouter>
 

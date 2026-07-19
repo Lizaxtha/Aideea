@@ -1,0 +1,41 @@
+.c-page{
+position:fixed;
+background-image: url("/c-bg1.arw");
+background-size: center;
+background-repeat: no-repeat;
+top:0;
+left:0;
+
+}
+
+.c-heading{
+    text-align: center;
+    
+}
+
+.star-container{
+    position:relative;
+    width:100vw;
+    height:80vh;
+    /* border:2px solid red; */
+}
+
+.star{
+    /* border:2px solid red; */
+    position:absolute;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{
+        text-shadow: 0 0 5px white;
+    }
+    to{
+        text-shadow: 0 0 10px white,
+        0 0 20px cyan,
+        0 0 30px cyan;
+    }
+}

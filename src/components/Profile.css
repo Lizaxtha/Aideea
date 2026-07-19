@@ -15,10 +15,24 @@ min-height: 100vh;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border:1px solid rgba(255,255,255,0.25);  border-radius:30px;
+    border:1px solid rgba(255,255,255,0.25);  
+    border-radius:30px;
     width:450px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25),
     00 20px rgba(255,255,255,0.1);
 color:rgb(138, 70, 158);
-    
+font-family: cursive;
+}
+
+.profile button{
+    border:none;
+    border-radius: 10px;
+    background-color: rgba(156, 95, 226,0.6);
+    padding: 10px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.profile button:hover{
+    background-color: rgb(236, 59, 47);
 }
