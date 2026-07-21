@@ -20,6 +20,14 @@ left:0;
     /* border:2px solid red; */
 }
 
+.c-name{
+position:absolute;
+color:white;
+font-size:1.4rem;
+transform:translateX(-50%);
+pointer-events:none;
+}
+
 .star{
     /* border:2px solid red; */
     position:absolute;
@@ -35,7 +43,7 @@ left:0;
     }
     to{
         text-shadow: 0 0 10px white,
-        0 0 20px cyan,
-        0 0 30px cyan;
+        0 0 20px rgb(251, 253, 253),
+        0 0 30px rgb(17, 0, 255);
     }
 }

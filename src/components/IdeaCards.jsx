@@ -85,6 +85,7 @@ return unsubscribe;
     </button>
     <h2>Idea Details</h2>
     <p>{selectedIdea.text}</p>
+    <p>{selectedIdea.createdAt ? selectedIdea.createdAt.toDate().toLocaleString() : "No timestamp"}</p>
 
     <div className="sidebar-actions">
         <button className="i-edit-btn">

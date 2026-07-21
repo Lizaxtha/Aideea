@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import {collection, addDoc, getDocs, query, where} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, serverTimestamp} from "firebase/firestore";
 import {db} from "../firebase";
 import {auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
@@ -36,7 +36,8 @@ function Home() {
                 {
                     userId:auth.currentUser.uid,
                     hobby: hobbyName,
-                    text: Idea
+                    text: Idea,
+                    createdAt:serverTimestamp()
                 }
             );
             // alert("Idea Saved!");
