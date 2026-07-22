@@ -18,6 +18,7 @@ function Constellation() {
         result.forEach((doc) => {
             temp.push({
                 id: doc.id,
+
                 ...doc.data()
             });
         });
@@ -52,7 +53,7 @@ function Constellation() {
         };
     });
 
-
+    const starPositions = [];
 
     return (
         <div className="c-page">
@@ -62,43 +63,82 @@ function Constellation() {
                 <p>The more the lights the creative your are.</p>
             </div>
 
+
             <div className="star-container">
 
                 {Object.entries(groupedIdeas).map(
                     ([hobby, hobbyIdeas]) => (
-                        <div key={hobby}>
+
+                        <div key={hobby} className="star-container">
+
                             <h2 className="c-name"
                                 style={{
                                     left: `${hobbyCenters[hobby].x}px`,
-                                    top: "180px"
+                                    top: "280px"
                                 }}
                             >
                                 {hobby}
                             </h2>
+
                             {
                                 hobbyIdeas.map((idea, index) => {
 
                                     const angle = (index / hobbyIdeas.length) * Math.PI * 2;
-                                    const radius = 100;
+                                    const radius = 90 + Math.random() * 80;
                                     const x = hobbyCenters[hobby].x + Math.cos(angle) * radius;
                                     const y = hobbyCenters[hobby].y + Math.sin(angle) * radius;
 
+                                    starPositions.push({
+                                        hobby,
+                                        x,
+                                        y,
+                                        id: idea.id
+                                    });
+
                                     return (
+
                                         <div key={idea.id} className="star"
                                             style={{
                                                 left: `${x}px`,
                                                 top: `${y}px`
                                             }}
                                         >
-                                            o
+                                            ⋆
                                         </div>
+
                                     )
                                 })
                             }
+
+
+                            {/* connecting stars */}
+
+                            <svg className="constellation-lines">
+                                {
+                                    Object.keys(groupedIdeas).map((hobby) => {
+                                        const hobbyStars = starPositions.filter(
+                                            star => star.hobby === hobby
+                                        );
+
+                                        return hobbyStars.map((star, index) => {
+                                            if (index === hobbyStars.length - 1)
+                                                return null;
+                                            return (
+                                                <line
+                                                    key={`${star.id}-${index}`}
+                                                    x1={star.x}
+                                                    y1={star.y}
+                                                    x2={hobbyStars[index + 1].x}
+                                                    y2={hobbyStars[index + 1].y}
+                                                />
+                                            );
+                                        });
+                                    })
+                                }
+                            </svg>
                         </div>
                     )
                 )}
-
             </div>
         </div>
     )
