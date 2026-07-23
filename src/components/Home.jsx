@@ -107,8 +107,8 @@ function Home() {
                 <source src="/video8.mp4" />
             </video>
             
-<Link to="/profile"> <button>Profile</button> </Link>
-<Link to={"/Constellation"} target="_blank"> <p>Constellation View</p> </Link>
+<Link to="/profile"> <button className="H-btn-profile">Profile</button> </Link>
+<Link to={"/Constellation"} target="_blank"> <p className="H-constellation">Constellation View</p> </Link>
             <div className="H-Title">
                 <h1>Aideea</h1>
                 <p>Dump your creative ideas</p>

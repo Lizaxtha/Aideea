@@ -18,6 +18,9 @@ function Constellation() {
         result.forEach((doc) => {
             temp.push({
                 id: doc.id,
+                offsetX:Math.random()*80-40,
+                offsetY:Math.random()*80-40,
+                radius:90+Math.random()*80,
 
                 ...doc.data()
             });
@@ -54,6 +57,7 @@ function Constellation() {
     });
 
     const starPositions = [];
+    const [hoveredHobby,setHoveredHobby]=useState(null);
 
     return (
         <div className="c-page">
@@ -69,8 +73,8 @@ function Constellation() {
                 {Object.entries(groupedIdeas).map(
                     ([hobby, hobbyIdeas]) => (
 
-                        <div key={hobby} className="star-container">
-
+                        <div key={hobby}>
+                            {hoveredHobby === hobby&&(
                             <h2 className="c-name"
                                 style={{
                                     left: `${hobbyCenters[hobby].x}px`,
@@ -79,14 +83,15 @@ function Constellation() {
                             >
                                 {hobby}
                             </h2>
+                            )}
 
                             {
                                 hobbyIdeas.map((idea, index) => {
 
                                     const angle = (index / hobbyIdeas.length) * Math.PI * 2;
-                                    const radius = 90 + Math.random() * 80;
-                                    const x = hobbyCenters[hobby].x + Math.cos(angle) * radius;
-                                    const y = hobbyCenters[hobby].y + Math.sin(angle) * radius;
+                                    const radius = idea.radius;
+                                    const x = hobbyCenters[hobby].x + Math.cos(angle) * radius+idea.offsetX;
+                                    const y = hobbyCenters[hobby].y + Math.sin(angle) * radius+idea.offsetY;
 
                                     starPositions.push({
                                         hobby,
@@ -98,6 +103,8 @@ function Constellation() {
                                     return (
 
                                         <div key={idea.id} className="star"
+                                        onMouseEnter={()=>setHoveredHobby(hobby)}
+                                        onMouseLeave={()=>setHoveredHobby(null)}
                                             style={{
                                                 left: `${x}px`,
                                                 top: `${y}px`
