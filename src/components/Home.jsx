@@ -159,11 +159,22 @@ function Home() {
                                     {hobbyName}
                                 </h3>
                                 <ul>
-                                    {ideas.map((item, index) =>
+                                    {ideas.slice(0,5).map((item, index) =>
                                     (
-                                        <li key={index}>{item}</li>
-                                    )
-                                    )}
+                                        <li key={index}>
+
+                                            {item.length>40
+                                            ?item.slice(0,40) + "..."
+                                            : item }
+
+                                        </li>
+                                    ))
+                                    }
+                                    {ideas.length > 5 && (
+                                                 <p className="more-ideas">
+                                                     +{ideas.length - 5} more ideas...
+                                                 </p>
+                                            )}
                                 </ul>
                             </div>
                         </Link>

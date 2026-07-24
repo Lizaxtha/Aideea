@@ -15,3 +15,8 @@ problem : everyone can see everyones ideas.
 16 played with css in Listview and IdeaCards
 
 19 plan:every idea will become a star and the ideas from same hobby will connected and form constellation and if there are more than one hobby there will be more than one constellation and if there are a lot of ideas loaded in one hobby, the stars and lights glow, connect and make bigger constellation.
+
+24 adjusted side bar in constellation.jsx that looks something like this now
+![alt text](image-3.png)
+
+the seleted stars glow and others do not

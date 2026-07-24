@@ -58,6 +58,8 @@ function Constellation() {
 
     const starPositions = [];
     const [hoveredHobby,setHoveredHobby]=useState(null);
+    const[selectedHobby,setSelectedHobby] = useState(null);
+
 
     return (
         <div className="c-page">
@@ -69,11 +71,23 @@ function Constellation() {
 
 
             <div className="star-container">
-
+   
                 {Object.entries(groupedIdeas).map(
                     ([hobby, hobbyIdeas]) => (
 
-                        <div key={hobby}>
+                        <div key={hobby} className="constellation-group">
+
+                            <div className="click-area"
+                            style={{
+                                left:`${hobbyCenters[hobby].x-170}px`,
+                                top: `${hobbyCenters[hobby].y-170}px`
+                            }}
+                            onClick={()=>setSelectedHobby({
+                                hobby,
+                                ideas:hobbyIdeas
+                            })}
+                            >
+                            </div>
                             {hoveredHobby === hobby&&(
                             <h2 className="c-name"
                                 style={{
@@ -102,7 +116,13 @@ function Constellation() {
 
                                     return (
 
-                                        <div key={idea.id} className="star"
+                                        <div key={idea.id} className={`star ${
+                                        selectedHobby?.hobby === hobby
+                                        ? "selected-star"
+                                        :selectedHobby
+                                        ?"dim-star"
+                                        :"" }`}
+
                                         onMouseEnter={()=>setHoveredHobby(hobby)}
                                         onMouseLeave={()=>setHoveredHobby(null)}
                                             style={{
@@ -137,6 +157,14 @@ function Constellation() {
                                                     y1={star.y}
                                                     x2={hobbyStars[index + 1].x}
                                                     y2={hobbyStars[index + 1].y}
+
+                                                    className={
+                                                        selectedHobby?.hobby === hobby
+                                                        ? "selected-line"
+                                                        : selectedHobby
+                                                        ? "dim-line"
+                                                        :"" 
+                                                    }
                                                 />
                                             );
                                         });
@@ -147,6 +175,26 @@ function Constellation() {
                     )
                 )}
             </div>
+            {selectedHobby && (
+                <div className="c-sidebar">
+                    <button className="close-btn"
+                    onClick={()=>setSelectedHobby(null)}
+                    >
+                        x
+                    </button>
+                    <h2>
+                        {selectedHobby.hobby}
+                    </h2>
+                    <p>
+                        {selectedHobby.ideas.length} Ideas
+                    </p>
+                    <ul>
+                        {selectedHobby.ideas.map((idea)=>(
+                            <li key={idea.id}>{idea.text}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     )
 }

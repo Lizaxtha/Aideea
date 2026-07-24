@@ -59,7 +59,6 @@ return unsubscribe;
             <Link to={`/list/${hobbyName}`}>
         <p>List View </p>
         </Link>
-            <p>Constellation View</p>
         </div>
 
         <div className="bubble-container">
