@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import {collection, addDoc, getDocs, query, where, serverTimestamp} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc} from "firebase/firestore";
 import {db} from "../firebase";
 import {auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
@@ -12,10 +12,24 @@ function Home() {
 
     const [hobbies, setHobbies] = useState(["Ideas"]);
     const [newHobby, setNewHobby] = useState("");
-    const addHobby = () => {
+
+    const addHobby = async() => {
         if (!newHobby.trim()) return;
-        setHobbies([...hobbies, newHobby]);
-        setNewHobby("");
+        try{
+            await setDoc(
+                doc(db,"hobbies", newHobby),
+                {
+                    userId:auth.currentUser.uid,
+                    name:newHobby,
+                    pinned:false
+                }
+            );
+            await loadHobbies();
+            setNewHobby("");
+        }
+        catch(error){
+            alert(error.message);
+        }
     };
 
     //allows to select idea
@@ -32,14 +46,15 @@ function Home() {
         const hobbyName = selectedHobby || "Ideas";
 
         try{
-            await addDoc(collection(db, "ideas"),
+            await addDoc(
+                collection(db, "ideas"),
                 {
                     userId:auth.currentUser.uid,
                     hobby: hobbyName,
                     text: Idea,
                     createdAt:serverTimestamp()
                 }
-            );
+            ); 
             // alert("Idea Saved!");
             setIdea("");
         }
@@ -57,30 +72,26 @@ function Home() {
     }
 
     const LoadIdeas =async()=>{
-        // const loadedHobbies =["Ideas"];
+        
         const q=query(
-            collection(db, "ideas"),
-            where("userId", "==", auth.currentUser.uid)
-        )
+            collection(db,"ideas"),
+            where("userId","==",auth.currentUser.uid)
+        );
+        const result=await getDocs(q);
 
-        const result = await getDocs(q);
         const loadedIdeas ={};
 
-        const loadedHobbies=["Ideas"];
-        result.forEach((doc)=>{
-            const data=doc.data();
+        result.forEach((document)=>{
+            const data=document.data();
             if(!loadedIdeas[data.hobby]){
                 loadedIdeas[data.hobby]=[];
             }
             
             loadedIdeas[data.hobby].push(data.text);
-            if(!loadedHobbies.includes(data.hobby)){
-                loadedHobbies.push(data.hobby);
-            }
+            
         });
 
         setSaved(loadedIdeas);
-        setHobbies(loadedHobbies);
     }
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(
@@ -88,11 +99,29 @@ function Home() {
             (user)=>{
                 if(user){
                     LoadIdeas();
+                    loadHobbies();
                 }
             }
         );
        return()=> unsubscribe();
     },[]);
+
+    const loadHobbies =async()=>{
+        const q=query(
+            collection(db,"hobbies"),
+            where("userId","==",auth.currentUser.uid)
+        );
+        const result =await getDocs(q);
+        // const hobbyList=["Ideas"];
+        const hobbySet = new Set(["Ideas"]);
+        result.forEach((document)=>{
+            hobbySet.add(document.data().name);
+        });
+        setHobbies([...hobbySet]);
+    };
+
+   
+    
 
     return (
         <>
@@ -163,8 +192,8 @@ function Home() {
                                     (
                                         <li key={index}>
 
-                                            {item.length>40
-                                            ?item.slice(0,40) + "..."
+                                            {item.length>30
+                                            ?item.slice(0,30) + "..."
                                             : item }
 
                                         </li>
@@ -181,7 +210,7 @@ function Home() {
                     )
                 )}
             </div>
-
+{/* <button onClick={migrateHobbies}>migrate!!</button> */}
         </>
     )
 }
