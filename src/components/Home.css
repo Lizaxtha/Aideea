@@ -95,6 +95,7 @@ height:62px;
     z-index: 2;
 }
 .card{
+    position:relative;
     width:250px;
     min-height:150px;
 margin:15px;
@@ -138,4 +139,20 @@ cursor: pointer;
 }
 .H-constellation:hover{
     color:blanchedalmond;
+}
+
+.pin-btn{
+    position:absolute;
+    top:12px;
+    right:12px;
+    background: none;
+    border:none;
+    cursor: pointer;
+    padding: 0;
+    /* transition: 0.2s; */
+}
+.pin-btn img{
+    width:24px;
+    height:24px;
+    /* transition: 0.2s; */
 }

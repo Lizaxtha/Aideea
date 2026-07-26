@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc,deleteDoc} from "firebase/firestore";
 import {db} from "../firebase";
 import {auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
@@ -12,6 +12,8 @@ function Home() {
 
     const [hobbies, setHobbies] = useState(["Ideas"]);
     const [newHobby, setNewHobby] = useState("");
+
+    const[pinnedHobbies, setPinnedHobbies] = useState({});
 
     const addHobby = async() => {
         if (!newHobby.trim()) return;
@@ -61,13 +63,13 @@ function Home() {
         catch(error){
             alert(error.message);
         }
-        setSaved({
-            ...saved,
+        setSaved(prev=>({
+            ...prev,
             [hobbyName]: [
-                ...(saved[hobbyName] || []),
+                ...(prev[hobbyName] || []),
                 Idea
             ]
-        });
+        }));
        
     }
 
@@ -112,16 +114,84 @@ function Home() {
             where("userId","==",auth.currentUser.uid)
         );
         const result =await getDocs(q);
-        // const hobbyList=["Ideas"];
+        console.log(result.docs.map(doc=>doc.data().name));
+
         const hobbySet = new Set(["Ideas"]);
+        const pinnedMap={};
+        
         result.forEach((document)=>{
-            hobbySet.add(document.data().name);
+
+            console.log(document.data().name);
+            hobbySet(document.data().name);
+
+            const data =document.data();
+
+            hobbySet.add(data.name);
+            pinnedMap[data.name] = data.pinned || false;
         });
+console.log("Final Hobbies:", [...hobbySet]);
+
         setHobbies([...hobbySet]);
+        setPinnedHobbies(pinnedMap);
     };
 
-   
-    
+    const togglePin =async(hobbyName)=>{
+
+        try{
+            const newPinned =!pinnedHobbies[hobbyName];
+
+            await setDoc(
+                doc(db,"hobbies",hobbyName),
+                {
+                    userId:auth.currentUser.uid,
+                    name:hobbyName,
+                    pinned:newPinned
+                },
+                {merge:true}
+            );
+        
+        setPinnedHobbies(prev=>({
+            ...prev,
+            [hobbyName]: newPinned
+        }));
+
+        }
+        catch(error){
+            alert(error.message);
+        }
+    }
+
+    const sortedSaved = Object.entries(saved).sort(([a],[b])=>{
+        const pinA=pinnedHobbies[a] ? 1: 0;
+        const pinB=pinnedHobbies[b] ? 1: 0;
+        return pinB-pinA;
+    });
+
+    const deleteHobby =async() =>{
+        if(!selectedHobby || selectedHobby === "Ideas") return;
+        const confirmDelete=window.confirm(
+            `Delete the hobby "${selectedHobby}"?`
+        )
+
+        if(!confirmDelete) return;
+        try{
+            await deleteDoc(
+                doc(db,"hobbies", selectedHobby)
+            )
+
+            setSaved(prev=>{
+                const updated={...prev};
+                delete updated[selectedHobby];
+                return updated;
+            });
+            await loadHobbies();
+            setselectedHobby("");
+            alert("Hobby deleted.");
+            }
+            catch(error){
+                alert(error.message);
+            }
+    };
 
     return (
         <>
@@ -170,13 +240,20 @@ function Home() {
                         )
                         )}
                     </select>
+
+                    <button className="delete-hobby-btn"
+                    onClick={deleteHobby}
+                    disabled={!selectedHobby || selectedHobby === "Ideas"}
+                    >
+                        Delete
+                    </button>
                 </div>
             </div>
 
             {/* generates cards/hobbies with ideas */}
 
             <div className="H-cards">
-                {Object.entries(saved).map(([hobbyName, ideas]) =>(
+                {sortedSaved.map(([hobbyName,ideas]) =>(
 
                         <Link 
                         key={hobbyName}
@@ -184,9 +261,21 @@ function Home() {
                         target="_blank">
                                 
                             <div className="card">
+
+                                <button className="pin-btn"
+                                onClick={(e)=>{
+                                    e.preventDefault();
+                                    togglePin(hobbyName);
+                                }}>
+                                    <img src={pinnedHobbies[hobbyName] ? "/pinned.webp":""}
+                                    alt="pin"
+                                    />
+                                </button>
+
                                 <h3 className="card-heading">
                                     {hobbyName}
                                 </h3>
+
                                 <ul>
                                     {ideas.slice(0,5).map((item, index) =>
                                     (
@@ -210,7 +299,6 @@ function Home() {
                     )
                 )}
             </div>
-{/* <button onClick={migrateHobbies}>migrate!!</button> */}
         </>
     )
 }
