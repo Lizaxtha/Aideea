@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc,deleteDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc,deleteDoc,writeBatch} from "firebase/firestore";
 import {db} from "../firebase";
 import {auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
@@ -17,12 +17,22 @@ function Home() {
 
     const addHobby = async() => {
         if (!newHobby.trim()) return;
+
+        const hobbyName= newHobby.trim().charAt(0).toUpperCase() +
+                         newHobby.trim().slice(1).toLowerCase();
         try{
+            if (hobbies.some(
+                hobby=>hobby.toLowerCase()===hobbyName.toLowerCase()
+            ))
+            {
+                alert("This hobby already exists.");
+                return;
+            }
             await setDoc(
-                doc(db,"hobbies", newHobby),
+                doc(db,"hobbies", hobbyName),
                 {
                     userId:auth.currentUser.uid,
-                    name:newHobby,
+                    name:hobbyName,
                     pinned:false
                 }
             );
@@ -121,10 +131,11 @@ function Home() {
         
         result.forEach((document)=>{
 
-            console.log(document.data().name);
-            hobbySet(document.data().name);
+            console.log("Doc Id:", document.id);
+            console.log("Name:",document.data().name);
 
             const data =document.data();
+            console.log(data.name);
 
             hobbySet.add(data.name);
             pinnedMap[data.name] = data.pinned || false;
@@ -170,7 +181,7 @@ console.log("Final Hobbies:", [...hobbySet]);
     const deleteHobby =async() =>{
         if(!selectedHobby || selectedHobby === "Ideas") return;
         const confirmDelete=window.confirm(
-            `Delete the hobby "${selectedHobby}"?`
+            `Are you sure you want to delete "${selectedHobby}"?(includes deletion of all ideas)`
         )
 
         if(!confirmDelete) return;
@@ -178,6 +189,20 @@ console.log("Final Hobbies:", [...hobbySet]);
             await deleteDoc(
                 doc(db,"hobbies", selectedHobby)
             )
+
+            const ideaQuery=query(
+                collection(db,"ideas"),
+                where("userId","==", auth.currentUser.uid),
+                where("hobby","==",selectedHobby)
+            );
+
+            const ideaDocs= await getDocs(ideaQuery);
+            const batch=writeBatch(db);
+
+            ideaDocs.forEach((document)=>{
+                batch.delete(document.ref);
+            });
+            await batch.commit();
 
             setSaved(prev=>{
                 const updated={...prev};

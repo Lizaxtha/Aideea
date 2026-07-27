@@ -2,7 +2,7 @@ import{useParams, Link} from "react-router-dom";
 import{useState, useEffect} from "react";
 import "./IdeaCards.css";
 import React from "react";
-import {collection,query,where,getDocs} from "firebase/firestore";
+import {collection,query,where,getDocs, deleteDoc,doc,updateDoc} from "firebase/firestore";
 import {db,auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -12,6 +12,7 @@ function IdeaCards(){
     
     const[IdeaCards, setIdeas] =useState([]);
     const[selectedIdea, setSelectedIdea]=useState(null);
+    const[editedText,setEditedText] = useState("");
 
     const loadIdeas=async(uid)=>{
         const q=query(
@@ -42,6 +43,58 @@ const unsubscribe=onAuthStateChanged(
 return unsubscribe;
     },[]);
     
+    //for delete action
+    const deleteIdea = async ()=>{
+        if(!selectedIdea) return;
+
+        const confirmDelete=window.confirm(
+            "Delete this idea?"
+        );
+
+        if(!confirmDelete) return;
+
+        try{
+            await deleteDoc(
+                doc(db,"ideas",selectedIdea.id)
+            )
+
+            setIdeas(prev=>
+                prev.filter(idea=>idea.id!==selectedIdea.id)
+            );
+            setSelectedIdea(null);
+        }
+        catch(error){
+            alert(error.message);
+        }
+    };
+
+    //for save action
+
+    const saveIdea =async() =>{
+        if(!selectedIdea) return;
+        try{
+            await updateDoc(
+                doc(db,"ideas", selectedIdea.id),
+                {
+                    text:editedText
+                }
+            );
+            setIdeas(prev=>
+                prev.map(idea=>idea.is===selectedIdea.id ? {...idea, text: editedText} : idea
+
+                )
+            );
+            setSelectedIdea({
+                ...selectedIdea,
+                text:editedText
+            });
+            alert("Idea updated");
+        }
+        catch(error){
+            alert(error.message);
+        }
+    };
+
 
     return(
         <>
@@ -66,7 +119,10 @@ return unsubscribe;
 
                 <div className="idea-bubble"
                 key={idea.id}
-                onClick={()=>setSelectedIdea(idea)}
+                onClick={()=>{
+                    setSelectedIdea(idea);
+                     setEditedText(idea.text);
+                }}
                 style={{
                     top:`${Math.random()*70}%`,
                     left:`${Math.random()*80}%`
@@ -79,18 +135,23 @@ return unsubscribe;
         </div>
 {selectedIdea&&(
 <div className="sidebar">
-    <button className="close-btn" onClick={()=>setSelectedIdea(null)}>
+    <button className="close-btn"
+     onClick={()=> setSelectedIdea(null)}>
         close
     </button>
     <h2>Idea Details</h2>
-    <p>{selectedIdea.text}</p>
+   
+        <textarea value={editedText} 
+        onChange={(e)=>setEditedText(e.target.value)}/>
+        <p>{selectedIdea.text}</p>
+
     <p>{selectedIdea.createdAt ? selectedIdea.createdAt.toDate().toLocaleString() : "No timestamp"}</p>
 
     <div className="sidebar-actions">
-        <button className="i-edit-btn">
-            Edit
+        <button className="i-save-btn" onClick={saveIdea}>
+            Save
         </button>
-        <button className="i-delete-btn">
+        <button className="i-delete-btn" onClick={deleteIdea}>
             Delete
         </button>
     </div>
