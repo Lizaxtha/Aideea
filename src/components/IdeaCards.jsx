@@ -95,6 +95,9 @@ return unsubscribe;
         }
     };
 
+    const [bubbleData,setBubbleData] = useState([]);
+
+
 
     return(
         <>
@@ -124,10 +127,13 @@ return unsubscribe;
                      setEditedText(idea.text);
                 }}
                 style={{
-                    top:`${Math.random()*70}%`,
-                    left:`${Math.random()*80}%`
-                }  
-                }
+                    // top:,
+                    // left:,
+                    animationDuration: `${4+Math.random()*4}s`,
+                    animationDelay: `${Math.random()*3}s`,
+                    width: idea.size,
+                    height: idea.size
+                }}
                 >
                 {idea.text}
                 </div>
