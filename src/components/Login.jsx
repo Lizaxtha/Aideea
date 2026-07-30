@@ -1,9 +1,9 @@
 import "./SignUp.css";
-import {signInWithEmailAndPassword} from "firebase/auth";
+import {signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import {auth} from "../firebase";
 import {useState} from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login(){
 
@@ -26,6 +26,30 @@ function Login(){
     }
     }
 
+    //for forgot password
+
+    const[Popup, setPopup]=useState(false);
+    const [resetEmail,setResetEmail] = useState("");
+
+    const resetPassword=async ()=>{
+
+        if(!resetEmail.trim()){
+            alert("Please enter your email.");
+            return;
+        }
+
+        try{
+            await sendPasswordResetEmail(auth, resetEmail);
+            alert("Password reset link sent! Please check your inbox.");
+
+            setPopup(false);
+            setResetEmail("");
+        }
+        catch(error){
+            alert(error.message);
+        }
+    };
+
     return(
         <>
         <video
@@ -35,11 +59,11 @@ function Login(){
             playsInline
             className="bg-vid"
             >
-                <source src="/Video3.mp4"/>
+                <source src="/video3.mp4"/>
             </video>
 
         <div className="container">
-            <h1 className="h1 heading">Welcome Back</h1>
+            <h1 className="h1-animation heading h1-large">Welcome Back</h1>
             
                 <form className="form" onSubmit={Submit}>
 
@@ -58,14 +82,48 @@ function Login(){
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)} />
                 </div>
+
                 <button className="btn">LogIn</button>
-                <a>Don't have an account? SignUp</a>
+
+                <Link to="/">
+                    Don't have an account? Sign up
+                </Link>
                 <br/>
-                <br/>
-                <a href="">Forgot your Password?</a>
-                </form>
+                <p className="forgot-password" onClick={()=>setPopup(true)}>Forgot your Password?</p>
             
+                </form>
         </div>
+
+        {Popup &&(
+
+            <div className="popup-overlay">
+
+                <div className="popup">
+
+                    <h2> Reset Password </h2>
+                    <p>Enter your email address</p>
+
+                    <input 
+                    type="email"
+                    placeholder="Enter your email"
+                    value={resetEmail}
+                    onChange={(e)=>setResetEmail(e.target.value)}
+                    />
+
+                    <div className="popup-button">
+                        <button onClick={()=>{
+                            setPopup(false);
+                            setResetEmail("");
+                        }}>
+                            Cancel
+                        </button>
+                        <button onClick={resetPassword}>Send Link</button>
+                    </div>
+
+                </div>
+            </div>
+        )}
+
         </>
     )
 }

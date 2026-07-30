@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import "./SignUp.css";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -15,15 +15,13 @@ function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    /* const openHome =(e)=>{
-        e.preventDefault();
-         */ 
-
     const Submit =async(e) =>{
         e.preventDefault();
         
         try {
-    //         const userCredential =
+
+            //         const userCredential =
+
             await createUserWithEmailAndPassword(
                 auth,
                 email,
@@ -32,7 +30,8 @@ function SignUp() {
             
             alert("Account created!");
             navigate("/home");
-    //         console.log(userCredential.user);
+            
+            //         console.log(userCredential.user);
         }
         
         catch(error){
@@ -50,14 +49,13 @@ function SignUp() {
             playsInline
             className="bg-vid"
             >
-                <source src="/Video3.mp4"/>
+                <source src="/video3.mp4"/>
             </video>
+
         <div className="container">
             <div className="heading">
-               
-                 <h1>Aideea</h1>
-                <h1 className="h1">Ready to keep IDEAS safe!!</h1>
-                
+                 <h1 className="h1-large">Aideea</h1>
+                <h1 className="h1-animation h1-small">Ready to keep IDEAS safe!!</h1>
             </div>
 
             <form className="form" onSubmit={Submit}>

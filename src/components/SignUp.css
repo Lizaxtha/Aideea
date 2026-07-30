@@ -1,4 +1,6 @@
-
+*{
+    font-family: cursive;
+}
 .bg-vid{
     position:fixed;
     top:0;
@@ -17,17 +19,23 @@
     z-index:1;
 }
 
+
+
 .heading{
     text-align: center;
     padding-top: 15px;
     padding-bottom: 20px;
     color: #9472e2;
-    z-index: 1;
-    
-    
+    z-index: 1;    
 }
-.h1{
-   font-size:35px; 
+.h1-large{
+    font-size: 50px;
+}
+.h1-small{
+    font-size:30px;
+}
+
+.h1-animation{
     animation:animation 2s ease-out forwards;
 }
 @keyframes animation{
@@ -40,6 +48,9 @@
         transform:translateX(0);
     }
 }
+
+
+
 .form {
    display: flex;
   background-color: rgba(255, 253, 253, 0.08);
@@ -52,8 +63,6 @@
   padding : 15px 0px 25px 0px;
   border-radius: 25px;
   z-index: 1;
-  
- 
 }
 
 h2 {
@@ -75,7 +84,7 @@ input{
     color:white;
 }
 input::placeholder{
-    color:black;
+    color:rgba(0, 0, 0, 0.719);
 }
 .btn{
     padding: 7px 10px;
@@ -84,10 +93,10 @@ input::placeholder{
     border-radius: 3px;
     background:rgba(156, 64, 199, 0.514);
     font-size: 17px;
+    color: antiquewhite;
 }
 .btn:hover{
-    background: #1828be88;
-    color:aliceblue;
+    background: #391be488;
 }
 a{
     text-decoration: none;
@@ -96,4 +105,59 @@ a{
 a:hover{
     text-decoration: none;
     color:rgb(153, 69, 231);
+    cursor: pointer;
+}
+
+.forgot-password{
+color:#c084fc;
+display: inline-block;
+}
+.forgot-password:hover{
+    color:rgba(153,69,231);
+    cursor: pointer;
+}
+
+/* forgot password css */
+.popup-overlay{
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: rgba(0,0,0,0.6);
+    z-index: 99;
+}
+.popup{
+    width:390px;
+    padding:30px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+    color:rgb(161, 81, 192);
+}
+.popup h2{
+    color:rgb(161, 81, 192);
+    margin-bottom: 10px;
+}
+
+.popup input{
+    width:100%;
+    margin:20px 0;
+    padding:12px;
+    border-radius: 10px;
+    border: none;
+}
+.popup-button{
+    display:flex;
+    justify-content: flex-end;
+    gap:10px;
+}
+.popup-button button{
+    border-radius: 5px;
+    border: none;
+    padding:5px;
+    color: #FFFFFF;
+    background:rgb(161, 81, 192); ;
 }

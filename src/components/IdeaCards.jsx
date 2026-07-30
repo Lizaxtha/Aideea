@@ -95,10 +95,7 @@ return unsubscribe;
         }
     };
 
-    const [bubbleData,setBubbleData] = useState([]);
-
-
-
+    // const [bubbleData,setBubbleData] = useState([]);
     return(
         <>
         <video
@@ -127,8 +124,8 @@ return unsubscribe;
                      setEditedText(idea.text);
                 }}
                 style={{
-                    // top:,
-                    // left:,
+                    top: idea.y,
+                    left:idea.x,
                     animationDuration: `${4+Math.random()*4}s`,
                     animationDelay: `${Math.random()*3}s`,
                     width: idea.size,
