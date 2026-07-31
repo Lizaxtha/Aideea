@@ -40,13 +40,30 @@ function Login(){
 
         try{
             await sendPasswordResetEmail(auth, resetEmail);
-            alert("Password reset link sent! Please check your inbox.");
+            alert("Password reset link sent!");
 
             setPopup(false);
             setResetEmail("");
         }
         catch(error){
-            alert(error.message);
+
+            switch(error.code){
+
+                case "auth/user-not-found":
+                alert("No account exists with this email.");
+                break;
+
+                case "auth/invalid-email":
+                alert("Please enter a valid email");
+                break;
+
+                case "auth/too-many-requests":
+                    alert("Too many attempts. Please try again later.");
+                    break;
+
+                    default: alert("Unable to send rest link.");
+
+            }
         }
     };
 

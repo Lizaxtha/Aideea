@@ -6,6 +6,7 @@ import IdeaCards from "./components/IdeaCards";
 import ListView from "./components/ListView";
 import Profile from "./components/Profile";
 import Constellation from "./components/Constellation";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -15,11 +16,12 @@ function App() {
     <Routes>
       <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login/>}/>
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/hobby/:hobbyName" element={<IdeaCards />} />
-      <Route path="/list/:hobbyName" element={<ListView />} />
-      <Route path="/profile" element={<Profile/>}/>
-      <Route path="/constellation" element={<Constellation/>}/>
+
+      <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
+      <Route path="/hobby/:hobbyName" element={<ProtectedRoute><IdeaCards /></ProtectedRoute>} />
+      <Route path="/list/:hobbyName" element={<ProtectedRoute><ListView /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute></ProtectedRoute>}/>
+      <Route path="/constellation" element={<ProtectedRoute><Constellation /></ProtectedRoute>}/>
     </Routes>
     </BrowserRouter>
 
