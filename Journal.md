@@ -20,3 +20,8 @@ problem : everyone can see everyones ideas.
 ![alt text](image-3.png)
 
 the seleted stars glow and others do not
+
+01- the final home page looks like this now
+![alt text](image-4.png)
+
+02-In ideaCards.jsx, using math.random wasn't making the bubbles seem like bubble, even though they were floating, they were overlapping so i started using matter-js to make it better

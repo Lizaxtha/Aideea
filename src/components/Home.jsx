@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import "./Home.css";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {collection, addDoc, getDocs, query, where, serverTimestamp,setDoc,doc,deleteDoc,writeBatch} from "firebase/firestore";
-import {db} from "../firebase";
-import {auth} from "../firebase";
+import {db, auth} from "../firebase";
 import {onAuthStateChanged} from "firebase/auth";
 
 function Home() {
@@ -230,12 +229,15 @@ console.log("Final Hobbies:", [...hobbySet]);
             >
                 <source src="/video8.mp4" />
             </video>
-            
-<Link to="/profile"> <button className="H-btn-profile">Profile</button> </Link>
-<Link to={"/Constellation"} target="_blank"> <p className="H-constellation">Constellation View</p> </Link>
+
+            <div className="Nav-bar">
+                <Link to={"/profile"}> <button className="H-btn-profile">Profile</button> </Link>
+                <Link to={"/Constellation"} target="_blank"> <p className="H-constellation">Constellation View</p> </Link>
+            </div>
+
             <div className="H-Title">
                 <h1>Aideea</h1>
-                <p>Dump your creative ideas</p>
+                <p>Your personal universe of Ideas.</p>
             </div>
 
             <div className="H-container">
@@ -287,12 +289,14 @@ console.log("Final Hobbies:", [...hobbySet]);
                                 
                             <div className="card">
 
-                                <button className="pin-btn"
-                                onClick={(e)=>{
+                                <button className="pin-btn" 
+                                    title={pinnedHobbies[hobbyName]?"Unpin":"Pin"} 
+                                    onClick={(e)=>{
                                     e.preventDefault();
                                     togglePin(hobbyName);
                                 }}>
-                                    <img src={pinnedHobbies[hobbyName] ? "/pinned.webp":""}
+                                    <img src={pinnedHobbies[hobbyName] 
+                                    ? "/pin-star.png":"/unpin-star.png"}
                                     alt="pin"
                                     />
                                 </button>

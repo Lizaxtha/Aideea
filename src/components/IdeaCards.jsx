@@ -1,14 +1,18 @@
 import{useParams, Link} from "react-router-dom";
-import{useState, useEffect} from "react";
+import{useState, useEffect, useRef} from "react";
 import "./IdeaCards.css";
 import React from "react";
 import {collection,query,where,getDocs, deleteDoc,doc,updateDoc} from "firebase/firestore";
 import {db,auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Matter from "matter-js";
 
 function IdeaCards(){
 
     const { hobbyName}=useParams();
+
+    const bubbleRef=useRef(null);
+    const[bubbleBodies, setBubbleBodies] =useState([]);
     
     const[IdeaCards, setIdeas] =useState([]);
     const[selectedIdea, setSelectedIdea]=useState(null);
@@ -95,47 +99,139 @@ return unsubscribe;
         }
     };
 
-    // const [bubbleData,setBubbleData] = useState([]);
+    useEffect(()=>{
+        if(!bubbleRef.current) return;
+        if(IdeaCards.length === 0) return;
+
+        const {
+            Engine,Render, Runner, Bodies, Composite 
+        } = Matter;
+
+            const engine=Engine.create();
+            engine.gravity.y=0;
+            
+            const render = Render.create({
+                element:bubbleRef.current,
+                engine,
+                options: {
+                    width: bubbleRef.current.clientWidth,
+                    height: bubbleRef.current.clientHeight,
+                    wireframes:false,
+                    background:"transparent"
+                }
+            });
+
+            Render.run(render);
+
+            const runner= Runner.create();
+            Runner.run(runner,engine);
+
+            const width = bubbleRef.current.clientWidth;
+            const height = bubbleRef.current.clientHeight;
+
+            const walls=[
+                Bodies.rectangle(width/2,-20, width,40,{isStatic:true}),
+                Bodies.rectangle(width/2, height+20,width, 40,{isStatic:true}),
+                Bodies.rectangle(-20,height/2,10,height,{isStatic:true}),
+                Bodies.rectangle(width +20,height/2,40,height,{isStatic:true}),
+            ];
+            Composite.add (engine.world, walls);
+
+            return()=>{
+                Render.stop(Render);
+                Runner.stop(runner);
+
+                render.canvas.remove();
+            };
+
+            const bubbles = IdeaCards.map((idea)=>{
+                const size=80+Math.random()*70;
+
+                const body=Bodies.circle(
+                    Math.random()*width,
+                    Math.random()*height,
+                    size/2,
+                    {
+                        restitution:1,
+                        friction: 0,
+                        frictionAir: 0.005,
+                        density: 0.001
+                    }
+                );
+                body.idea = idea;
+                body.size = size;
+
+                return body;
+            });
+            Composite.add(engine.world, bubbles);
+
+            //making bubbles drift
+
+            Matter.Events.on(engine,"beforeUpdate",()=>{
+                bubbles.forEach((bubble)=>{
+                    Matter.Body.applyForce(
+                        bubble,
+                        bubble.position,
+                        {
+                            x:(Math.random()-0.5)*0.0003,
+                            y:(Math.random()-0.5)*0.0003
+                        }
+                    )
+                })
+            })
+    },[IdeaCards])
+
+    setBubbleBodies(bubbles);
+
+    let animationFrame;
+
+    const update=()=>{
+        setBubbleBodies([...bubbles]);
+        animationFrame=requestAnimationFrame(update);
+    };
+    update()
+
+
     return(
+
         <>
+
         <video
         autoPlay
         loop
         muted
         playsInline
         className="I-bgvid">
-            <source src="/video10.mp4"/>
+            <source src="/IdeaCards-vid.mp4"/>
         </video>
-<h1 className="i-h1">{hobbyName}</h1>
 
         <div className="i-container1">
-            <Link to={`/list/${hobbyName}`}>
-        <p>List View </p>
-        </Link>
+            <h1 className="i-h1">{hobbyName}</h1>
+            <Link to={`/list/${hobbyName}`} className="i-list">
+                <p>List View </p>
+            </Link>
         </div>
 
-        <div className="bubble-container">
-            {IdeaCards.map((idea)=>(
-
-                <div className="idea-bubble"
-                key={idea.id}
-                onClick={()=>{
-                    setSelectedIdea(idea);
-                     setEditedText(idea.text);
-                }}
-                style={{
-                    top: idea.y,
-                    left:idea.x,
-                    animationDuration: `${4+Math.random()*4}s`,
-                    animationDelay: `${Math.random()*3}s`,
-                    width: idea.size,
-                    height: idea.size
-                }}
-                >
-                {idea.text}
-                </div>
+        <div className="bubble-container" ref={bubbleRef}>
+            {bubbleBodies.map((bubble)=>(
+                <div key={bubble.idea.id}
+                    className="idea-bubble"
+                    onClick={()=>{
+                        setSelectedIdea(bubble.idea);
+                        setEditedText(bubble.idea.text);
+                     }}
+                     style={{
+                        width: bubble.size,
+                        height:bubble.size,
+                        left:bubble.position.x-bubble.size/2,
+                        top:bubble.position.y-bubble.size/2
+                     }}
+                     >
+                        {bubble.idea.text}
+                     </div>
             ))}
         </div>
+
 {selectedIdea&&(
 <div className="sidebar">
     <button className="close-btn"
@@ -166,3 +262,4 @@ return unsubscribe;
  }
 
 export default IdeaCards;
+

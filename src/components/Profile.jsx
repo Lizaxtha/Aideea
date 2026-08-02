@@ -19,6 +19,7 @@ function Profile() {
     }
 
     const user = auth.currentUser;
+    
     //show idea count
     const [ideaCount, setIdeaCount] = useState(0);
     const loadIdeas = async () => {

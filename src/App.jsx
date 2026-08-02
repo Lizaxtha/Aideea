@@ -17,10 +17,10 @@ function App() {
       <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login/>}/>
 
-      <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
-      <Route path="/hobby/:hobbyName" element={<ProtectedRoute><IdeaCards /></ProtectedRoute>} />
-      <Route path="/list/:hobbyName" element={<ProtectedRoute><ListView /></ProtectedRoute>} />
-      <Route path="/profile" element={<ProtectedRoute></ProtectedRoute>}/>
+      <Route path="/home" element={<ProtectedRoute> <Home /> </ProtectedRoute>}/>
+      <Route path="/hobby/:hobbyName" element={<ProtectedRoute> <IdeaCards /> </ProtectedRoute>} />
+      <Route path="/list/:hobbyName" element={<ProtectedRoute> <ListView /> </ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>}/>
       <Route path="/constellation" element={<ProtectedRoute><Constellation /></ProtectedRoute>}/>
     </Routes>
     </BrowserRouter>
