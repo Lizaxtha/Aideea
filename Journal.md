@@ -25,3 +25,5 @@ the seleted stars glow and others do not
 ![alt text](image-4.png)
 
 02-In ideaCards.jsx, using math.random wasn't making the bubbles seem like bubble, even though they were floating, they were overlapping so i started using matter-js to make it better
+
+03-i thought to create a separate file for matter.js features since IdeaCards.jsx was handling a lot.

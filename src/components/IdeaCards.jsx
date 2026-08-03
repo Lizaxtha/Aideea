@@ -6,13 +6,11 @@ import {collection,query,where,getDocs, deleteDoc,doc,updateDoc} from "firebase/
 import {db,auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Matter from "matter-js";
+import { use } from "react";
 
 function IdeaCards(){
 
     const { hobbyName}=useParams();
-
-    const bubbleRef=useRef(null);
-    const[bubbleBodies, setBubbleBodies] =useState([]);
     
     const[IdeaCards, setIdeas] =useState([]);
     const[selectedIdea, setSelectedIdea]=useState(null);
@@ -84,7 +82,7 @@ return unsubscribe;
                 }
             );
             setIdeas(prev=>
-                prev.map(idea=>idea.is===selectedIdea.id ? {...idea, text: editedText} : idea
+                prev.map(idea=>idea.id===selectedIdea.id ? {...idea, text: editedText} : idea
 
                 )
             );
@@ -99,6 +97,14 @@ return unsubscribe;
         }
     };
 
+    //using matter-js from here
+      const bubbleRef=useRef(null);
+      const bubbleElements=useRef({});
+      const engineRef=useRef(null);
+      const runnerRef=useRef(null);
+      const bubblesRef=useRef([]);
+      const ideaMap = useRef({});
+
     useEffect(()=>{
         if(!bubbleRef.current) return;
         if(IdeaCards.length === 0) return;
@@ -107,7 +113,8 @@ return unsubscribe;
             Engine,Render, Runner, Bodies, Composite 
         } = Matter;
 
-            const engine=Engine.create();
+            engineRef.current=Engine.create();
+            const engine=engineRef.current;
             engine.gravity.y=0;
             
             const render = Render.create({
@@ -122,9 +129,10 @@ return unsubscribe;
             });
 
             Render.run(render);
+            render.canvas.style.display ="none";
 
-            const runner= Runner.create();
-            Runner.run(runner,engine);
+            runnerRef.current=Runner.create();
+            Runner.run(runnerRef.current,engine);
 
             const width = bubbleRef.current.clientWidth;
             const height = bubbleRef.current.clientHeight;
@@ -137,59 +145,110 @@ return unsubscribe;
             ];
             Composite.add (engine.world, walls);
 
+            
             return()=>{
-                Render.stop(Render);
-                Runner.stop(runner);
-
+                Render.stop(render);
+                Runner.stop(runnerRef.current);
+    
                 render.canvas.remove();
+                Object.values(bubbleElements.current).forEach(el=>{
+                    el.remove();
+                
+                });
+                bubbleElements.current={};
+    
             };
+        },[])
 
-            const bubbles = IdeaCards.map((idea)=>{
+        useEffect(()=>{
+            if(!engineRef.current) return;
+            const{Bodies,Composite,Body}=Matter;
+
+            const engine = engineRef.current;
+            const world = engine.world;
+
+          /*  bubblesRef.current.forEach(body=>{
+                Composite.remove(world,body);
+            });
+            bubblesRef.current=[];*/
+
+            const width = bubbleRef.current.clientWidth;
+            const height = bubbleRef.current.clientHeight;
+
+            IdeaCards.forEach((idea,index)=>{
+
+                if(ideaMap.current[idea.id]) return;
+
                 const size=80+Math.random()*70;
 
-                const body=Bodies.circle(
-                    Math.random()*width,
-                    Math.random()*height,
-                    size/2,
+                //for arranging bubble in grid
+                const columns = Math.ceil(Math.sqrt(IdeaCards.length));
+                const spacingX = width/(columns+1);
+                const spacingY = height/(columns+1);
+                const row = Math.floor(index/columns);
+                const col = index % columns;
+
+                const startX = spacingX*(col+1)+(Math.random()-0.5)*40;
+                const startY = spacingY*(row+1)+(Math.random()-0.5)*40;
+                const body = Bodies.circle(
+                    startX,startY,size/2,
                     {
-                        restitution:1,
-                        friction: 0,
-                        frictionAir: 0.005,
-                        density: 0.001
+                        restitution:0.95,
+                        friction:0,
+                        frictionAir:0.0005,
+                        density:0.0005
                     }
                 );
                 body.idea = idea;
                 body.size = size;
-
-                return body;
-            });
-            Composite.add(engine.world, bubbles);
-
-            //making bubbles drift
-
-            Matter.Events.on(engine,"beforeUpdate",()=>{
-                bubbles.forEach((bubble)=>{
-                    Matter.Body.applyForce(
-                        bubble,
-                        bubble.position,
-                        {
-                            x:(Math.random()-0.5)*0.0003,
-                            y:(Math.random()-0.5)*0.0003
-                        }
-                    )
+                Body.setVelocity(body,{
+                    x:(Math.random()-0.5)*2,
+                    y:(Math.random()-0.5)*2
                 })
-            })
-    },[IdeaCards])
 
-    setBubbleBodies(bubbles);
+                Composite.add(world,body);
+                ideaMap.current[idea.id]=body;
 
-    let animationFrame;
+                bubblesRef.current=Object.values(ideaMap.current);
 
-    const update=()=>{
-        setBubbleBodies([...bubbles]);
-        animationFrame=requestAnimationFrame(update);
-    };
-    update()
+                //to recreate Html
+                const el=document.createElement("div");
+                el.className="idea-bubble";
+                el.innerText=idea.text;
+                el.onclick=()=>{
+                    setSelectedIdea(idea);
+                    setEditedText(idea.text);
+                };
+
+                bubbleRef.current.appendChild(el);
+
+                bubbleElements.current[idea.id]=el;
+                });
+
+                //for animation loop
+                let animationFrame;
+                const animate=()=>{
+                    bubblesRef.current.forEach((bubble)=>{
+                        const el = bubbleElements.current[bubble.idea.id];
+
+                        if(!el) return;
+
+                        el.style.width = `${bubble.size}px`;
+                        el.style.height = `${bubble.size}px`;
+                        el.style.transform=
+                        `translate(
+                        ${bubble.position.x-bubble.size/2}px,
+                        ${bubble.position.y-bubble.size/2}px
+                        )`;
+                    });
+                    animationFrame=requestAnimationFrame(animate);
+                };
+                animate();
+            }
+            
+        )
+        },[IdeaCards]);
+
 
 
     return(
@@ -213,23 +272,6 @@ return unsubscribe;
         </div>
 
         <div className="bubble-container" ref={bubbleRef}>
-            {bubbleBodies.map((bubble)=>(
-                <div key={bubble.idea.id}
-                    className="idea-bubble"
-                    onClick={()=>{
-                        setSelectedIdea(bubble.idea);
-                        setEditedText(bubble.idea.text);
-                     }}
-                     style={{
-                        width: bubble.size,
-                        height:bubble.size,
-                        left:bubble.position.x-bubble.size/2,
-                        top:bubble.position.y-bubble.size/2
-                     }}
-                     >
-                        {bubble.idea.text}
-                     </div>
-            ))}
         </div>
 
 {selectedIdea&&(
