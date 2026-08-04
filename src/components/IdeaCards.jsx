@@ -113,8 +113,8 @@ return unsubscribe;
 
         <div className="i-container1">
             <h1 className="i-h1">{hobbyName}</h1>
-            <Link to={`/list/${hobbyName}`} className="i-list">
-                <p>List View </p>
+            <Link to={`/list/${hobbyName}`} >
+                <p className="i-list">List View </p>
             </Link>
         </div>
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Matter from "matter-js";
+import "./Bubbles.css";
 
 function Bubbles({ideas, onBubbleClick}){
 
@@ -18,12 +19,15 @@ function Bubbles({ideas, onBubbleClick}){
      useEffect(()=>{
 
         const {
-            Engine,Render, Runner, Bodies, Composite 
+            Engine, Render, Runner, Bodies, Composite 
         } = Matter;
 
          engineRef.current=Engine.create();
             const engine=engineRef.current;
             engine.gravity.y=0;
+            engine.positionIteration=12;
+            engine.velocityIterations=10;
+            engine.constraintIterations=4;
 
             const render = Render.create({
                 element:containerRef.current,
@@ -46,10 +50,10 @@ function Bubbles({ideas, onBubbleClick}){
             const height = containerRef.current.clientHeight;
 
             const walls=[
-                Bodies.rectangle(width/2, -20, width, 40, {isStatic:true}),
-                Bodies.rectangle(width/2, height+20, width, 40, {isStatic:true}),
-                Bodies.rectangle(-20, height/2, 40, height, {isStatic:true}),
-                Bodies.rectangle(width +20, height/2, 40, height, {isStatic:true}),
+                Bodies.rectangle(width/2, -20, width, 40, {isStatic:true, restitution:1}),
+                Bodies.rectangle(width/2, height+20, width, 40, {isStatic:true, restitution:1}),
+                Bodies.rectangle(-20, height/2, 40, height, {isStatic:true, restitution:1}),
+                Bodies.rectangle(width +20, height/2, 40, height, {isStatic:true, restitution:1}),
             ];
             Composite.add(engine.world, walls);
 
@@ -57,6 +61,9 @@ function Bubbles({ideas, onBubbleClick}){
                 Runner.stop(runnerRef.current);
                 Render.stop(render);
                 render.canvas.remove();
+                bubblesRef.current=[];
+                bubbleElements.current={};
+                ideaMap.current={};
             }
 
      },[]);
@@ -105,9 +112,15 @@ function Bubbles({ideas, onBubbleClick}){
         const height = containerRef.current.clientHeight;
 
         ideas.forEach((idea,index)=>{
-            if(ideaMap.current[idea.id]) return;
 
-            const size =90;
+            if(ideaMap.current[idea.id]){
+                ideaMap.current[idea.id].idea = idea;
+                bubbleElements.current[idea.id].innerText=idea.text;
+                return;
+            }
+
+            //to create matter body
+            const size =120;
 
             const columns = Math.ceil(Math.sqrt(ideas.length));
             const spacingX = width/(columns+1);
@@ -121,10 +134,12 @@ function Bubbles({ideas, onBubbleClick}){
             const body = Bodies.circle(
                     startX, startY, size/2,
                     {
-                        restitution:0.95,
+                        restitution:1,
                         friction:0,
+                        frictionStatic:0,
                         frictionAir:0.0005,
-                        density:0.0005
+                        density:0.0005,
+                        slop:0
                     }
                 );
 
@@ -136,6 +151,7 @@ function Bubbles({ideas, onBubbleClick}){
                     y:(Math.random()-0.5)*2
                 })
 
+                //adding to world
                 Composite.add(world, body);
                 ideaMap.current[idea.id] = body;
 

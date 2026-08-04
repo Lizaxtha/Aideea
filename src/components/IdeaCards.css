@@ -13,20 +13,19 @@
     display:flex;
     flex-direction: column;
     align-items: center;
-    gap:5px;
-    margin-top: 15px; 
 }
 
 .i-h1{
-color: white;
+color: rgb(77, 67, 218);
 z-index: 2;
 font-size: 45px;
-margin-top:20px;
+text-shadow: -4px -3px 0 #e67be0;
+
 }
 
 .i-list{
-    font-size: 20px;
-    color: rgb(157, 55, 182);
+    font-size: 23px;
+    color: white;
     font-weight: bold;
 }
 
@@ -40,60 +39,7 @@ margin-top:20px;
     height:75vh;
     overflow:hidden;
 }
-.idea-bubble{
-    position:absolute;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
-    border-radius: 50%;
-
-    color: white;
-    background:rgba(255,255,255,0.12);
-    backdrop-filter: blur(15px);
-    cursor: pointer;
-
-    /* transition: transform 0.2s, box-shawdow 0.2s; */
-    user-select: none;
-    overflow:hidden;
-
-    /* word-break:break-word;
-    -webkit-line-clamp:2; */
-}
-
-.idea-bubble:hover{
-    transform:scale(1.12);
-    background:rgba(255,255,255,0.2);
-    box-shadow: 0 0 25px rgba(192,132,252,0.5);
-    transition: 0.35s;
-}
-
-.idea-bubble::before{
-    content:"";
-    position: absolute;
-    top:18px;
-    left:28px;
-    width: 45px;
-    height:45px;
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.55);
-    filter:blur(6px);
-}
-
-.idea-bubble::after{
-    content: "";
-    position: absolute;
-    width: 18px;
-    height:18px;
-    border-radius: 50%;
-    top:60px;
-    left:50px;
-    background:rgba(255,255,255,0.25);
-
-}
 
 .sidebar{
     position:fixed;
