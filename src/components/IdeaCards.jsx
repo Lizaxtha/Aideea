@@ -1,12 +1,9 @@
 import{useParams, Link} from "react-router-dom";
-import{useState, useEffect, useRef} from "react";
+import{useState, useEffect} from "react";
 import "./IdeaCards.css";
-import React from "react";
 import {collection,query,where,getDocs, deleteDoc,doc,updateDoc} from "firebase/firestore";
 import {db,auth} from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import Matter from "matter-js";
-import { use } from "react";
 import Bubbles from "./Bubbles";
 
 function IdeaCards(){
@@ -118,7 +115,7 @@ return unsubscribe;
             </Link>
         </div>
 
-        <div className="">
+        <div>
             <Bubbles ideas={IdeaCards}
             onBubbleClick={(idea)=>{
                 setSelectedIdea(idea);
@@ -132,11 +129,10 @@ return unsubscribe;
      onClick={()=> setSelectedIdea(null)}>
         close
     </button>
-    <h2>Idea Details</h2>
+    <h2>Details</h2>
    
-        <textarea value={editedText} 
+        <textarea className="i-textarea" value={editedText} 
         onChange={(e)=>setEditedText(e.target.value)}/>
-        <p>{selectedIdea.text}</p>
 
     <p>{selectedIdea.createdAt ? selectedIdea.createdAt.toDate().toLocaleString() : "No timestamp"}</p>
 

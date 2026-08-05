@@ -1,53 +1,93 @@
 .L-page{
+    position:absolute;
     min-height:100vh;
-    background-image: url("/ListViewbg.avif");
+    background-image: url("/bg7.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0.87;
+    inset:0;
     padding:40px;
 
 }
 .L-heading{
     text-align: center;
-    color:rgb(195, 237, 248);
-    font-size: 50px;
+    color:#d8b4fe;
+    font-size: 55px;
     margin-bottom: 30px;
-    text-shadow: 0 0 10px #4f51e6, 0 0 20px #9071e4;
+    text-shadow: 10px 0 20px #171992, 7px 0 10px #4927a5;
 }
 
 
 .L-list{
     list-style: none;
-    padding:0;
     display: flex;
     flex-direction:column;
-    gap:20px;
+    gap:10px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(5px);
+     border-radius:15px;
+   
 }
 
 .L-card{
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    border:1px solid rgba(255,255,255,0.2);
-    color:white;
-    padding:20px;
-    border-radius:15px;
-    display:flex;
-    /* justify-content: space-between; */
+    display: flex;
     align-items:center;
-    gap:15px;
+    background: rgba(255,255,255,0.08);
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.12);
+    box-shadow:0 8px 25px rgba(0,0,0,0.25);
+    transition: 0.3;
+}
+
+.L-card:hover{
+    transform:translateY(-3px);
+    background: rgba(255,255,255,0.13);
+}
+
+.L-text{
+    flex:1;
+    margin:0;
+    padding:0px 15px;
+    line-height:1.5;
+    color:#f1eeff;
     font-size: 17px;
 }
 
-
-.edit-btn, .save-btn, .delete-btn{
-    border:none;
-    padding:8px 15px;
-    border-radius: 8px;
-    cursor:pointer;
-    /* align-self: flex-end; */
+.L-actions{
+    display:flex;
+    gap:12px;
 }
 
-.edit-btn:hover, .save-btn:hover, .delete-btn:hover{
-    transform:scale(1.05);
+.L-edit-btn, .L-save-btn{
+   background:#7c5cff;
+   color:white;
+   border:none;
+   padding:6px 16px;
+   border-radius: 999px;
+   font-weight:600;
+   transition:0.25s;
+   margin:5px 0px;
 }
 
+.L-edit-btn:hover{
+    background: #9278ff;
+    transform: translateY(-2px);
+}
+
+.L-delete-btn{
+   background: #ff5d73;
+
+   color:white;
+   border:none;
+   padding:6px 16px;
+   border-radius: 999px;
+   font-weight:600;
+   transition:0.25s;
+   margin:5px 0px;
+}
+
+.L-delete-btn:hover{
+    background: #ff7287;
+    transform:translateY(-2px);
+}

@@ -67,7 +67,7 @@ function ListView() {
             );
             setEditingId(null);
             await loadIdeas(auth.currentUser.uid);
-            alert("Idea Updated");
+            // alert("Idea Updated");
         }
         catch (error) {
             alert(error.message);
@@ -85,15 +85,17 @@ function ListView() {
                     <li className="L-card" key={idea.id}>
                         {editingId === idea.id ? (
                             <>
-                                <input value={editedText} onChange={(e) => setEditedText(e.target.value)} />
-                                <button className="save-btn" onClick={() => editing(idea.id)}>Save</button>
+                                <input className="L-input" value={editedText} onChange={(e) => setEditedText(e.target.value)} />
+                                <div className="L-actions"><button className="L-save-btn" onClick={() => editing(idea.id)}>Save</button></div>
                             </>
 
                         ) : (
                             <>
-                                {idea.text}
-                                <button className="edit-btn" onClick={() => { setEditingId(idea.id); setEditedText(idea.text); }}>Edit</button>
-                                <button className="delete-btn" onClick={() => deleting(idea.id)}>Delete</button>
+                               <p className="L-text">{idea.text}</p>
+                               <div className="L-actions">
+                                <button className="L-edit-btn" onClick={() => { setEditingId(idea.id); setEditedText(idea.text); }}>Edit</button>
+                                <button className="L-delete-btn" onClick={() => deleting(idea.id)}>Delete</button>
+                               </div>
                             </>
                         )}
                     </li>

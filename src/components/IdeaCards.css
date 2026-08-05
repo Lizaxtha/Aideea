@@ -33,23 +33,18 @@ text-shadow: -4px -3px 0 #e67be0;
     color:#e879f9;
 }
 
-.bubble-container{
-    position:relative;
-    width:100%;
-    height:75vh;
-    overflow:hidden;
-}
-
 
 .sidebar{
     position:fixed;
     top:0;
     right:0;
+
     display:flex;
     flex-direction: column;
+
     width: 340px;
     height:100vh ;
-    background:rgba(0,0,0,0,0.85);
+    background:rgba(0,0,0,0.65);
     backdrop-filter:blur(10px);
     border-radius: 40px 0 0 40px;
     color:white;
@@ -58,27 +53,28 @@ text-shadow: -4px -3px 0 #e67be0;
     overflow-y:auto;
 }
 
-.close.btn{
+.close-btn{
     align-self:flex-end;
     border:none;
     background:none;
     color:white;
-    font-size:24px;
+    font-size:22px;
     cursor:pointer;
 }
 
 .sidebar-actions{
-    margin-top: 20px;;
+    margin-top: 40px;
     display: flex;
-    gap:15px;
+    gap:20px;
 }
 
-.i-edit-btn, .i-delete-btn{
+.i-save-btn, .i-delete-btn{
     flex:1;
     padding:10px;
     border:none;
     border-radius:10px;
     cursor:pointer;
+    background: rgba(58, 182, 231, 0.603);
 }
 .sidebar{
     animation:slideIn .3s ease;
@@ -90,4 +86,9 @@ text-shadow: -4px -3px 0 #e67be0;
     to{
         transform:translateX(0);
     }
+}
+.i-textarea{
+    border-radius: 10px;
+    background: #b480a3c2;
+    font-size: 16px;
 }
