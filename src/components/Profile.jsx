@@ -39,17 +39,20 @@ function Profile() {
 
     // show hobby count
     const [hobbyCount, setHobbyCount] = useState(0);
+
     const loadHobbies = async () => {
         const q = query(
-            collection(db, "ideas"),
+            collection(db, "hobbies"),
             where("userId", "==", auth.currentUser.uid)
         );
+
         const result = await getDocs(q);
-        const hobbies = new Set();
-        result.forEach((document) => {
-            hobbies.add(document.data().hobby);
-        });
-        setHobbyCount(hobbies.size);
+        // const hobbies = new Set();
+
+        // result.forEach((document) => {
+        //     hobbies.add(document.data().hobby);
+        // });
+        setHobbyCount(result.size);
     };
 
     //for permanent deletion of account

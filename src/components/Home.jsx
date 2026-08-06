@@ -90,9 +90,14 @@ function Home() {
         );
         const result=await getDocs(q);
 
+        console.log("Ideas found", result.size);
+
         const loadedIdeas ={};
 
         result.forEach((document)=>{
+
+            console.log(document.data());
+
             const data=document.data();
             if(!loadedIdeas[data.hobby]){
                 loadedIdeas[data.hobby]=[];
@@ -101,6 +106,8 @@ function Home() {
             loadedIdeas[data.hobby].push(data.text);
             
         });
+
+        console.log("loadIdeas =", loadedIdeas);
 
         setSaved(loadedIdeas);
     }

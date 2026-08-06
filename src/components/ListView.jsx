@@ -20,6 +20,10 @@ function ListView() {
         const temp = [];
 
         result.forEach((doc) => {
+
+            console.log("Doc Id:", doc.id);
+            console.log("Name:",doc.data());
+
             temp.push({
                 id: doc.id,
                 ...doc.data()

@@ -8,13 +8,13 @@ left:0;
 width:100vw;
 height:100vh;
 z-index: 0;
-  font-family: cursive;
+font-family: cursive;
 
 }
 
 .c-heading{
     text-align: center;
-    color:white;
+    color:rgb(22, 198, 230);
   
     
 }
@@ -26,10 +26,8 @@ z-index: 0;
 }
 
 .star-container{
-    /* position:relative; */
     width:100vw;
     height:80vh;
-    /* border:2px solid red; */
     display:flex;
     flex-direction: column;
 }
@@ -44,7 +42,6 @@ pointer-events:none;
 
 .star{
     position:absolute;
-    /* color:#6489ee; */
     color:rgb(245, 248, 40);
     font-size:25px;
     cursor:pointer;
