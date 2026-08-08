@@ -14,11 +14,11 @@ So I thought why not build a website that is only used to store my thoughts, ide
 
 #Features of Aideea
 
--has secure firebase authentication
--Home page gives the bigger picture of all hobbies listed with preview of its own ideas
--consists pin idea feature
--constellation view gives a visual view of your ideas twinkling. The more the ideas, the more the stars. The more the hobbies, the more the constellations
--Bubble view and List view are two types of organized representation of your hobbies to read, edit, delete and save ideas.
+- has secure firebase authentication
+- Home page gives the bigger picture of all hobbies listed with preview of its own ideas
+- consists pin idea feature
+- constellation view gives a visual view of your ideas twinkling. The more the ideas, the more the stars. The more the hobbies, the more the constellations
+- Bubble view and List view are two types of organized representation of your hobbies to read, edit, delete and save ideas.
 
 
 # Technology used
@@ -32,25 +32,24 @@ So I thought why not build a website that is only used to store my thoughts, ide
 
 
 #Playable URL
-
--https://aideea.netlify.app/
+https://aideea.netlify.app/
 
 #Installation
 
 Required : Node.js (includes npm)
 
--clone this repository 
+- clone this repository 
 - install dependencies: npm install
--start development server: npm run dev
-open the url (given in terminal) in browser
+- start development server: npm run dev
+- open the url (given in terminal) in browser
 
 #Firebase Setup
 
-=>Create a Firebase project.
+- Create a Firebase project.
 
-=>Enable:
-- Authentication (Email/Password)
-- Firestore Database
+- Enable:
+1) Authentication (Email/Password)
+2) Firestore Database
 
 =>[not necessary but if you want to] you will need to create .env file and add the values given below.
 VITE_FIREBASE_API_KEY=your_api_key 
