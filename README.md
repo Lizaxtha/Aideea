@@ -1,3 +1,59 @@
+Aideea => A creative space for storing, organizing and visualizing ideas.
+
+#What is Aideea?
+Aideea is a website that creates a space to store and organize your ideas, interests and thoughts for different hobbies. Instead of keeping ideas in random notes, Aideea groups ideas according to hobbies and creates a separate space for each of your thoughts/ideas.
+
+#Why did i build it?
+I always had a problem with storing my random thoughts and idea on different hobbies. I would either forget about it or write it in my notes app which would eventually go unseen and get lost in other notes too.
+
+So i thought why not build a website that is only used to store my thoughts, ideas and plans and each hobby or interested topic would get a separate place to organize and store ideas.
+
+#Features of Aideea
+=>has secure firebase authentication
+=>Home page gives the bigger picture of all hobbies listed with preview of its own ideas
+=>consists pin Aideea feature
+=>constellation view gives a visual view of your ideas twinkling . The more the ideas, the more the stars. the more the hobbies, the more the constellation
+=> Bubble view and List view are two types of organized representation of your hobbies to read, edit, delete and save ideas.
+
+
+# Technology used
+- React
+- Vite
+- Firebase Authentication
+- Firebase Firestore
+- Matter.js
+- React Router
+- CSS
+
+
+#Playable URL
+https://aideea.netlify.app/
+
+#Installation
+
+*Required : Node.js (includes npm)
+
+-clone this repository 
+- install dependencies: npm install
+-start development server: npm run dev
+open the url (given in terminal) in browser
+
+#Firebase Setup
+
+=>Create a Firebase project.
+
+=>Enable:
+- Authentication (Email/Password)
+- Firestore Database
+
+=>[not necessary but if you want to] you will need to create .env file and add the values given below.
+VITE_FIREBASE_API_KEY=your_api_key 
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id 
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+[make sure .env is included in .gitignore]
 
 
 Website Previews
