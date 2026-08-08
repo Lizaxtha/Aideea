@@ -1,19 +1,24 @@
-Aideea => A creative space for storing, organizing and visualizing ideas.
+#Aideea
+
+=>A creative space for storing, organizing and visualizing ideas.
 
 #What is Aideea?
+
 Aideea is a website that creates a space to store and organize your ideas, interests and thoughts for different hobbies. Instead of keeping ideas in random notes, Aideea groups ideas according to hobbies and creates a separate space for each of your thoughts/ideas.
 
 #Why did i build it?
+
 I always had a problem with storing my random thoughts and idea on different hobbies. I would either forget about it or write it in my notes app which would eventually go unseen and get lost in other notes too.
 
-So i thought why not build a website that is only used to store my thoughts, ideas and plans and each hobby or interested topic would get a separate place to organize and store ideas.
+So I thought why not build a website that is only used to store my thoughts, ideas and plans and each hobby or interested topic would get a separate place to organize and store ideas.
 
 #Features of Aideea
-=>has secure firebase authentication
-=>Home page gives the bigger picture of all hobbies listed with preview of its own ideas
-=>consists pin Aideea feature
-=>constellation view gives a visual view of your ideas twinkling . The more the ideas, the more the stars. the more the hobbies, the more the constellation
-=> Bubble view and List view are two types of organized representation of your hobbies to read, edit, delete and save ideas.
+
+-has secure firebase authentication
+-Home page gives the bigger picture of all hobbies listed with preview of its own ideas
+-consists pin idea feature
+-constellation view gives a visual view of your ideas twinkling. The more the ideas, the more the stars. The more the hobbies, the more the constellations
+-Bubble view and List view are two types of organized representation of your hobbies to read, edit, delete and save ideas.
 
 
 # Technology used
@@ -27,11 +32,12 @@ So i thought why not build a website that is only used to store my thoughts, ide
 
 
 #Playable URL
-https://aideea.netlify.app/
+
+-https://aideea.netlify.app/
 
 #Installation
 
-*Required : Node.js (includes npm)
+Required : Node.js (includes npm)
 
 -clone this repository 
 - install dependencies: npm install
@@ -56,7 +62,7 @@ VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 [make sure .env is included in .gitignore]
 
 
-Website Previews
+#Website Previews
 
 1)SignUP/Login page
 
