@@ -3,20 +3,18 @@ position:fixed;
 background-image: url("/c-bg1.png");
 background-size: center;
 background-repeat: no-repeat;
-top:0;
-left:0;
+inset: 0;
 width:100vw;
 height:100vh;
 z-index: 0;
 font-family: cursive;
-
+overflow: hidden;
 }
 
 .c-heading{
+    position: relative;
     text-align: center;
     color:rgb(22, 198, 230);
-  
-    
 }
 .c-heading h1{
     font-size: 35px;
@@ -25,13 +23,22 @@ font-family: cursive;
     font-size: 20px;
 }
 
-.star-container{
-    width:100vw;
-    height:80vh;
-    display:flex;
-    flex-direction: column;
+.star-scroll{
+    position: absolute;
+    top:105px;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow:auto;
 }
-
+.star-container{
+  position: relative;
+}
+.constellation-group{
+    position: absolute;
+    inset: 0;
+    pointer-events:none;
+}
 .c-name{
 position:absolute;
 color:white;
@@ -45,6 +52,7 @@ pointer-events:none;
     color:rgb(245, 248, 40);
     font-size:25px;
     cursor:pointer;
+    z-index: 2;
     animation: glow 2s infinite alternate,
                 twinkle 3s infinite ease-in-out;
 }
@@ -76,13 +84,19 @@ pointer-events:none;
     }
 }
 
+/* .constellation-group{
+position: static;
+} */
+
 .constellation-lines{
     position:absolute;
     width:100%;
-    height:100%;
+    height: 100%;
     top:0;
     left:0;
     pointer-events:none;
+    z-index: 1;
+    overflow: visible;
 }
 .constellation-lines line{
     stroke:white;
@@ -99,9 +113,7 @@ pointer-events:none;
     height: 340px;
     border-radius:50%;
     background: transparent;
-    /* border:2px solid red; */
 }
-
 .c-sidebar{
     position:fixed;
     right:0;

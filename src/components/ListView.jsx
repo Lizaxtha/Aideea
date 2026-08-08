@@ -22,7 +22,7 @@ function ListView() {
         result.forEach((doc) => {
 
             console.log("Doc Id:", doc.id);
-            console.log("Name:",doc.data());
+            console.log("Name:", doc.data());
 
             temp.push({
                 id: doc.id,
@@ -81,31 +81,31 @@ function ListView() {
 
     return (
         <>
-        <div className="L-page">
+            <div className="L-page">
 
-            <h1 className="L-heading">{hobbyName}</h1>
-            <ul className="L-list">
-                {ideas.map((idea) => (
-                    <li className="L-card" key={idea.id}>
-                        {editingId === idea.id ? (
-                            <>
-                                <input className="L-input" value={editedText} onChange={(e) => setEditedText(e.target.value)} />
-                                <div className="L-actions"><button className="L-save-btn" onClick={() => editing(idea.id)}>Save</button></div>
-                            </>
+                <h1 className="L-heading">{hobbyName}</h1>
+                <ul className="L-list">
+                    {ideas.map((idea) => (
+                        <li className="L-card" key={idea.id}>
+                            {editingId === idea.id ? (
+                                <>
+                                    <input className="L-input" value={editedText} onChange={(e) => setEditedText(e.target.value)} />
+                                    <div className="L-actions"><button className="L-save-btn" onClick={() => editing(idea.id)}>Save</button></div>
+                                </>
 
-                        ) : (
-                            <>
-                               <p className="L-text">{idea.text}</p>
-                               <div className="L-actions">
-                                <button className="L-edit-btn" onClick={() => { setEditingId(idea.id); setEditedText(idea.text); }}>Edit</button>
-                                <button className="L-delete-btn" onClick={() => deleting(idea.id)}>Delete</button>
-                               </div>
-                            </>
-                        )}
-                    </li>
-                ))}
-            </ul>
-        </div>
+                            ) : (
+                                <>
+                                    <p className="L-text">{idea.text}</p>
+                                    <div className="L-actions">
+                                        <button className="L-edit-btn" onClick={() => { setEditingId(idea.id); setEditedText(idea.text); }}>Edit</button>
+                                        <button className="L-delete-btn" onClick={() => deleting(idea.id)}>Delete</button>
+                                    </div>
+                                </>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </>
     )
 }

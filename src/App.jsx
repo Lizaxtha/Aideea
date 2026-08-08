@@ -14,6 +14,7 @@ function App() {
   
     <BrowserRouter>
     <Routes>
+
       <Route path="/" element={<SignUp />} />
       <Route path="/login" element={<Login/>}/>
 
@@ -22,12 +23,9 @@ function App() {
       <Route path="/list/:hobbyName" element={<ProtectedRoute> <ListView /> </ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute> <Profile /></ProtectedRoute>}/>
       <Route path="/constellation" element={<ProtectedRoute><Constellation /></ProtectedRoute>}/>
+      
     </Routes>
-    </BrowserRouter>
-
-        
-
-       
+    </BrowserRouter>  
     
   );
 }

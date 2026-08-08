@@ -12,7 +12,7 @@ function Login(){
 
     const navigate = useNavigate();
 
-    const Submit = async (e)=>{
+    const submit = async (e)=>{
         e.preventDefault();
         try{
         await signInWithEmailAndPassword(
@@ -28,7 +28,7 @@ function Login(){
 
     //for forgot password
 
-    const[Popup, setPopup]=useState(false);
+    const[popup, setPopup]=useState(false);
     const [resetEmail,setResetEmail] = useState("");
 
     const resetPassword=async ()=>{
@@ -61,7 +61,7 @@ function Login(){
                     alert("Too many attempts. Please try again later.");
                     break;
 
-                    default: alert("Unable to send rest link.");
+                    default: alert("Unable to send reset link.");
 
             }
         }
@@ -82,25 +82,25 @@ function Login(){
         <div className="container">
             <h1 className="h1-animation heading h1-large">Welcome Back</h1>
             
-                <form className="form" onSubmit={Submit}>
+                <form className="form" onSubmit={submit}>
 
                 <h2>Login</h2>
 
                 <div>
                     <label>Email</label>
-                    <input type="email" placeholder="Enter your email" 
+                    <input type="email" className="s-input" placeholder="Enter your email" 
                     value={email}
                     onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
 
                 <div>
                 <label>Password</label>
-                <input type="password" placeholder="Enter your password"
+                <input type="password" className="s-input" placeholder="Enter your password"
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)} />
                 </div>
 
-                <button className="btn">LogIn</button>
+                <button type="submit" className="btn">LogIn</button>
 
                 <Link to="/">
                     Don't have an account? Sign up
@@ -111,7 +111,7 @@ function Login(){
                 </form>
         </div>
 
-        {Popup &&(
+        {popup &&(
 
             <div className="popup-overlay">
 
@@ -128,13 +128,13 @@ function Login(){
                     />
 
                     <div className="popup-button">
-                        <button onClick={()=>{
+                        <button type="cancel" onClick={()=>{
                             setPopup(false);
                             setResetEmail("");
                         }}>
                             Cancel
                         </button>
-                        <button onClick={resetPassword}>Send Link</button>
+                        <button type="reset" onClick={resetPassword}>Send Link</button>
                     </div>
 
                 </div>

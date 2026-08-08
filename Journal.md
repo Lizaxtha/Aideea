@@ -27,3 +27,4 @@ the seleted stars glow and others do not
 02-In ideaCards.jsx, using math.random wasn't making the bubbles seem like bubble, even though they were floating, they were overlapping so i started using matter-js to make it better
 
 03-i thought to create a separate file for matter.js features since IdeaCards.jsx was handling a lot.
+07/08-spent time adjusting a few codes, then figured out a bug in constellation.jsx. the constellations were only alighned horizontally and new hobbies wouldn't fit, even after making grid and adjusting width, height and some values, the stars would appear but svg strokes were like a mess. after some more looking ,testing and coding finally it's scrollable and neat.

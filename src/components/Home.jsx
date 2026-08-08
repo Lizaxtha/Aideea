@@ -43,11 +43,7 @@ function Home() {
         }
     };
 
-    //allows to select idea
-
     const [selectedHobby, setselectedHobby] = useState("");
-
-    //for cards/hobbies with idea
 
     const [Idea, setIdea] = useState("");
     const [saved, setSaved] = useState({});
@@ -66,19 +62,20 @@ function Home() {
                     createdAt:serverTimestamp()
                 }
             ); 
-            // alert("Idea Saved!");
+
+            setSaved(prev=>({
+                ...prev,
+                [hobbyName]: [
+                    ...(prev[hobbyName] || []),
+                    Idea
+                ]
+            }));
+
             setIdea("");
         }
         catch(error){
             alert(error.message);
         }
-        setSaved(prev=>({
-            ...prev,
-            [hobbyName]: [
-                ...(prev[hobbyName] || []),
-                Idea
-            ]
-        }));
        
     }
 
@@ -90,13 +87,13 @@ function Home() {
         );
         const result=await getDocs(q);
 
-        console.log("Ideas found", result.size);
+        // console.log("Ideas found", result.size);
 
         const loadedIdeas ={};
 
         result.forEach((document)=>{
 
-            console.log(document.data());
+            // console.log(document.data());
 
             const data=document.data();
             if(!loadedIdeas[data.hobby]){
@@ -107,7 +104,7 @@ function Home() {
             
         });
 
-        console.log("loadIdeas =", loadedIdeas);
+        // console.log("loadIdeas =", loadedIdeas);
 
         setSaved(loadedIdeas);
     }
@@ -130,23 +127,26 @@ function Home() {
             where("userId","==",auth.currentUser.uid)
         );
         const result =await getDocs(q);
-        console.log(result.docs.map(doc=>doc.data().name));
+
+        // console.log(result.docs.map(doc=>doc.data().name));
 
         const hobbySet = new Set(["Ideas"]);
         const pinnedMap={};
         
         result.forEach((document)=>{
 
-            console.log("Doc Id:", document.id);
-            console.log("Name:",document.data().name);
+            // console.log("Doc Id:", document.id);
+            // console.log("Name:",document.data().name);
 
             const data =document.data();
-            console.log(data.name);
+
+            // console.log(data.name);
 
             hobbySet.add(data.name);
             pinnedMap[data.name] = data.pinned || false;
         });
-console.log("Final Hobbies:", [...hobbySet]);
+
+// console.log("Final Hobbies:", [...hobbySet]);
 
         setHobbies([...hobbySet]);
         setPinnedHobbies(pinnedMap);
@@ -239,7 +239,7 @@ console.log("Final Hobbies:", [...hobbySet]);
 
             <div className="Nav-bar">
                 <Link to={"/profile"}> <button className="H-btn-profile">Profile</button> </Link>
-                <Link to={"/Constellation"} target="_blank"> <p className="H-constellation">Constellation View</p> </Link>
+                <Link to={"/Constellation"} target="_blank" className="H-a"> <p className="H-constellation">Constellation View</p> </Link>
             </div>
 
             <div className="H-Title">
@@ -270,7 +270,7 @@ console.log("Final Hobbies:", [...hobbySet]);
                         <option value="">Choose Hobby</option>
                         {hobbies.map((hobby, index) =>
                         (
-                            <option key={index} value={hobby}> {hobby} </option>
+                            <option key={hobby} value={hobby}> {hobby} </option>
                         )
                         )}
                     </select>
@@ -291,6 +291,7 @@ console.log("Final Hobbies:", [...hobbySet]);
 
                         <Link 
                         key={hobbyName}
+                        className="H-a"
                         to={`/hobby/${hobbyName}`}
                         target="_blank">
                                 
@@ -315,7 +316,7 @@ console.log("Final Hobbies:", [...hobbySet]);
                                 <ul>
                                     {ideas.slice(0,5).map((item, index) =>
                                     (
-                                        <li key={index}>
+                                        <li key={item}>
 
                                             {item.length>30
                                             ?item.slice(0,30) + "..."

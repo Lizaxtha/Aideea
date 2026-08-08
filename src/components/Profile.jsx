@@ -19,7 +19,7 @@ function Profile() {
     }
 
     const user = auth.currentUser;
-    
+
     //show idea count
     const [ideaCount, setIdeaCount] = useState(0);
     const loadIdeas = async () => {
@@ -47,11 +47,7 @@ function Profile() {
         );
 
         const result = await getDocs(q);
-        // const hobbies = new Set();
 
-        // result.forEach((document) => {
-        //     hobbies.add(document.data().hobby);
-        // });
         setHobbyCount(result.size);
     };
 
@@ -60,7 +56,7 @@ function Profile() {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete your account permanently? This action cannot be undone!"
         );
-        if (!confirmDelete) reauthenticateWithCredential;
+        if (!confirmDelete) return;
         try {
             //to find user's all ideas
             const q = query(
@@ -72,7 +68,7 @@ function Profile() {
             //to delete all idea
             for (const document of result.docs) {
                 await deleteDoc(
-                    doc(db, "ideas" ,document.id)
+                    doc(db, "ideas", document.id)
                 );
             }
 
@@ -102,7 +98,7 @@ function Profile() {
                     <p>Joined:{" "}{new Date(user?.metadata?.creationTime).toLocaleDateString()}</p>
 
                 </div>
-                <button className="delete-btn" onClick={deleteAccount}>Delete Account <br/>PERMANENTLY !!</button>
+                <button className="delete-btn" onClick={deleteAccount}>Delete Account <br />PERMANENTLY !!</button>
             </div>
         </>
     )

@@ -1,93 +1,93 @@
-.L-page{
-    position:absolute;
-    min-height:100vh;
-    background-image: url("/bg7.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.87;
-    inset:0;
-    padding:40px;
-
+.L-page {
+  position: absolute;
+  min-height: 100vh;
+  background-image: url("/bg7.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  inset: 0;
+  padding: 40px;
 }
-.L-heading{
-    text-align: center;
-    color:#d8b4fe;
-    font-size: 55px;
-    margin-bottom: 30px;
-    text-shadow: 10px 0 20px #171992, 7px 0 10px #4927a5;
-}
-
-
-.L-list{
-    list-style: none;
-    display: flex;
-    flex-direction:column;
-    gap:10px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(5px);
-     border-radius:15px;
-   
+.L-heading {
+  text-align: center;
+  color: #d8b4fe;
+  font-size: 55px;
+  margin-bottom: 30px;
+  text-shadow:
+    10px 0 20px #171992,
+    7px 0 10px #4927a5;
 }
 
-.L-card{
-    display: flex;
-    align-items:center;
-    background: rgba(255,255,255,0.08);
-    border-radius:16px;
-    border:1px solid rgba(255,255,255,0.12);
-    box-shadow:0 8px 25px rgba(0,0,0,0.25);
-    transition: 0.3;
+.L-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
 }
 
-.L-card:hover{
-    transform:translateY(-3px);
-    background: rgba(255,255,255,0.13);
+.L-card {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  transition: 0.3s;
 }
 
-.L-text{
-    flex:1;
-    margin:0;
-    padding:0px 15px;
-    line-height:1.5;
-    color:#f1eeff;
-    font-size: 17px;
+.L-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.13);
 }
 
-.L-actions{
-    display:flex;
-    gap:12px;
+.L-text {
+  flex: 1;
+  margin: 0;
+  padding: 0px 15px;
+  line-height: 1.5;
+  color: #f1eeff;
+  font-size: 17px;
 }
 
-.L-edit-btn, .L-save-btn{
-   background:#7c5cff;
-   color:white;
-   border:none;
-   padding:6px 16px;
-   border-radius: 999px;
-   font-weight:600;
-   transition:0.25s;
-   margin:5px 0px;
+.L-actions {
+  display: flex;
+  gap: 12px;
 }
 
-.L-edit-btn:hover{
-    background: #9278ff;
-    transform: translateY(-2px);
+.L-edit-btn,
+.L-save-btn {
+  background: #7c5cff;
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: 0.25s;
+  margin: 5px 0px;
 }
 
-.L-delete-btn{
-   background: #ff5d73;
-
-   color:white;
-   border:none;
-   padding:6px 16px;
-   border-radius: 999px;
-   font-weight:600;
-   transition:0.25s;
-   margin:5px 0px;
+.L-edit-btn:hover {
+  background: #9278ff;
+  transform: translateY(-2px);
 }
 
-.L-delete-btn:hover{
-    background: #ff7287;
-    transform:translateY(-2px);
+.L-delete-btn {
+  background: #ff5d73;
+
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: 0.25s;
+  margin: 5px 0px;
+}
+
+.L-delete-btn:hover {
+  background: #ff7287;
+  transform: translateY(-2px);
 }

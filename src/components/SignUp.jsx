@@ -15,12 +15,15 @@ function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const Submit =async(e) =>{
+    const submit =async(e) =>{
         e.preventDefault();
         
         try {
 
-            //         const userCredential =
+            if(!email.trim()||!password.trim()){
+                alert("Please fill all fields");
+                return;
+            }
 
             await createUserWithEmailAndPassword(
                 auth,
@@ -31,7 +34,6 @@ function SignUp() {
             alert("Account created!");
             navigate("/home");
             
-            //         console.log(userCredential.user);
         }
         
         catch(error){
@@ -58,12 +60,12 @@ function SignUp() {
                 <h1 className="h1-animation h1-small">Ready to keep IDEAS safe!!</h1>
             </div>
 
-            <form className="form" onSubmit={Submit}>
+            <form className="form" onSubmit={submit}>
                 <h2>Sign up</h2>
 <br/>
                 <div>
                     <label>Name</label>
-                    <input type="text" 
+                    <input type="text" className="s-input"
                     value={name}
                      onChange={(e)=>setName(e.target.value)}
                      placeholder="Enter your name" />
@@ -71,7 +73,7 @@ function SignUp() {
 
                 <div>
                     <label>Email</label>
-                    <input type="email" 
+                    <input type="email" className="s-input"
                     value={email}
                      onChange={(e)=>setEmail(e.target.value)} 
                     placeholder="Enter your email" />
@@ -79,7 +81,7 @@ function SignUp() {
 
                 <div>
                     <label>Password</label>
-                   <input type="password" 
+                   <input type="password" className="s-input"
                    value={password} 
                 onChange={(e)=>setPassword(e.target.value)}
                     placeholder="Create password" />
@@ -89,7 +91,7 @@ function SignUp() {
 
                 <br />
 
-                <Link to="/Login" className="a">
+                <Link to="/login" className="a">
                
                 Already have an account? Login
             

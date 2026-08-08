@@ -37,6 +37,7 @@ function Constellation() {
         return unsubscribe;
     }, []);
 
+    //to group ideas by hobby
     const groupedIdeas = {};
 
     ideas.forEach((idea) => {
@@ -49,29 +50,107 @@ function Constellation() {
     //setting position
     const hobbyNames = Object.keys(groupedIdeas);
     const hobbyCenters = {};
+
+    const columns = 3;
+    const spacingX = 350;
+    const spacingY = 350;
+
     hobbyNames.forEach((hobby, index) => {
+        const column = index % columns;
+        const row = Math.floor(index/columns);
+
         hobbyCenters[hobby] = {
-            x: 250 + index * 350,
-            y: 300
+            x: 175 + column * spacingX,
+            y: 175 + row *spacingY
         };
     });
 
-    const starPositions = [];
+    const rows = Math.ceil(hobbyNames.length / columns);
+
+    const constellationWidth = columns*spacingX;
+    const constellationHeight = Math.max( rows * spacingY, 500);
+
     const [hoveredHobby,setHoveredHobby]=useState(null);
     const[selectedHobby,setSelectedHobby] = useState(null);
+    
+    const starPositions = [];
 
+     hobbyNames.forEach((hobby) => {
+        const hobbyIdeas = groupedIdeas[hobby];
+        const center = hobbyCenters[hobby];
+
+        hobbyIdeas.forEach((idea, index) => {
+            const angle =
+                (index / hobbyIdeas.length) * Math.PI * 2;
+
+            const radius = idea.radius;
+
+            const x =
+                center.x +
+                Math.cos(angle) * radius +
+                idea.offsetX;
+
+            const y =
+                center.y +
+                Math.sin(angle) * radius +
+                idea.offsetY;
+
+            starPositions.push({
+                hobby,
+                x,
+                y,
+                id: idea.id
+            });
+        });
+    });
 
     return (
         <div className="c-page">
 
             <div className="c-heading">
                 <h1>Constellation</h1>
-                <p>The more the lights the creative your are.</p>
+                <p>The more the lights, The more creative you are.</p>
             </div>
 
+<div className="star-scroll">
+            <div className="star-container" 
+                 style={{
+                    width: `${constellationWidth}px`,
+                    height: `${constellationHeight}px`}}>
+                                {/* connecting stars */}
+    
+                                <svg className="constellation-lines" width="100%" height={constellationHeight} >
+                                    {
+                                        Object.keys(groupedIdeas).map((hobby) => {
+                                            const hobbyStars = starPositions.filter(
+                                                star => star.hobby === hobby
+                                            );
+    
+                                            return hobbyStars.map((star, index) => {
+                                                if (index === hobbyStars.length - 1)
+                                                    return null;
+                                                return (
+                                                    <line
+                                                        key={`${star.id}-${index}`}
+                                                        x1={star.x}
+                                                        y1={star.y}
+                                                        x2={hobbyStars[index + 1].x}
+                                                        y2={hobbyStars[index + 1].y}
+    
+                                                        className={
+                                                            selectedHobby?.hobby === hobby
+                                                            ? "selected-line"
+                                                            : selectedHobby
+                                                            ? "dim-line"
+                                                            :"" 
+                                                        }
+                                                    />
+                                                );
+                                            });
+                                        })
+                                    }
+                                </svg>
 
-            <div className="star-container">
-   
                 {Object.entries(groupedIdeas).map(
                     ([hobby, hobbyIdeas]) => (
 
@@ -88,19 +167,20 @@ function Constellation() {
                             })}
                             >
                             </div>
+
                             {hoveredHobby === hobby&&(
                             <h2 className="c-name"
                                 style={{
                                     left: `${hobbyCenters[hobby].x}px`,
-                                    top: "280px"
+                                    top: `${hobbyCenters[hobby].y-20}px`
                                 }}
                             >
                                 {hobby}
                             </h2>
                             )}
 
-                            {
-                                hobbyIdeas.map((idea, index) => {
+
+                                {/* {hobbyIdeas.map((idea, index) => {
 
                                     const angle = (index / hobbyIdeas.length) * Math.PI * 2;
                                     const radius = idea.radius;
@@ -112,7 +192,17 @@ function Constellation() {
                                         x,
                                         y,
                                         id: idea.id
-                                    });
+                                    }); */}
+
+                                    {hobbyIdeas.map((idea) => {
+
+                                    const star =
+                                        starPositions.find(
+                                            (item) =>
+                                                item.id === idea.id
+                                        );
+
+                                    if (!star) return null;
 
                                     return (
 
@@ -126,8 +216,8 @@ function Constellation() {
                                         onMouseEnter={()=>setHoveredHobby(hobby)}
                                         onMouseLeave={()=>setHoveredHobby(null)}
                                             style={{
-                                                left: `${x}px`,
-                                                top: `${y}px`
+                                                left: `${star.x}px`,
+                                                top: `${star.y}px`
                                             }}
                                         >
                                             ⋆
@@ -138,43 +228,11 @@ function Constellation() {
                             }
 
 
-                            {/* connecting stars */}
-
-                            <svg className="constellation-lines">
-                                {
-                                    Object.keys(groupedIdeas).map((hobby) => {
-                                        const hobbyStars = starPositions.filter(
-                                            star => star.hobby === hobby
-                                        );
-
-                                        return hobbyStars.map((star, index) => {
-                                            if (index === hobbyStars.length - 1)
-                                                return null;
-                                            return (
-                                                <line
-                                                    key={`${star.id}-${index}`}
-                                                    x1={star.x}
-                                                    y1={star.y}
-                                                    x2={hobbyStars[index + 1].x}
-                                                    y2={hobbyStars[index + 1].y}
-
-                                                    className={
-                                                        selectedHobby?.hobby === hobby
-                                                        ? "selected-line"
-                                                        : selectedHobby
-                                                        ? "dim-line"
-                                                        :"" 
-                                                    }
-                                                />
-                                            );
-                                        });
-                                    })
-                                }
-                            </svg>
                         </div>
                     )
                 )}
             </div>
+        </div>
             {selectedHobby && (
                 <div className="c-sidebar">
                     <button className="close-btn"
